@@ -2,6 +2,7 @@
   "name": "job-search",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,10 +14,12 @@
     "@radix-ui/react-icons": "^1.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.2.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },

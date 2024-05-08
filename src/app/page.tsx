@@ -1,9 +1,20 @@
-import Image from "next/image";
+import prisma from "@/lib/prisma";
+import JobList from "@/components/shared/jobList";
 
-export default function Home() {
+async function page() {
+  // GET DATA FROM DATABASE
+  const jobs = await prisma.job.findMany();
+
   return (
-     <div>
-        <h1 className=" bg-red-500"> Hello world</h1>
-     </div>
+    <div className=" max-w-5xl mx-auto px-5 my-10">
+      <div className=" space-y-3">
+        {/* JOBS LIST */}
+        {jobs?.map((job, index) => (
+          <JobList job={job} key={index} />
+        ))}
+      </div>
+    </div>
   );
 }
+
+export default page;
