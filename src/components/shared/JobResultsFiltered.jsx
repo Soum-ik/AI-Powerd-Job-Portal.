@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import JobListItem from "@/components/shared/jobList";
+import { cn } from "@/lib/utils";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 export default async function JobResults({ filterValue, page = 1 }) {
   const jobsPerPage = 6;
@@ -46,14 +48,16 @@ export default async function JobResults({ filterValue, page = 1 }) {
     skip,
   });
 
-  // Await the resolution of the jobsPromise
-  const [jobs] = await Promise.all([jobsPromise]);
+  // Count total jobs are avaiable
+  const countPromise = prisma.job.count({ where });
 
+  // Await the resolution of the jobsPromise
+  const [jobs, totalPages] = await Promise.all([jobsPromise, countPromise]);
   // Return or use 'jobs' data as needed
 
   return (
     <div className=" grow space-y-4">
-      {jobs?.map((job, index) => (
+      {jobs?.map((job) => (
         <Link key={job.id} href={`/jobs/${job.slug}`} className="block">
           <JobListItem job={job} />
         </Link>
@@ -63,15 +67,57 @@ export default async function JobResults({ filterValue, page = 1 }) {
           No jobs found. Try adjusting your search filters.
         </p>
       )}
-      {jobs.length > 0 && <Pagination />}
+      {jobs.length > 0 && (
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(totalPages / jobsPerPage)}
+          filterValue={filterValue}
+        />
+      )}
     </div>
   );
 }
 
-function Pagination({}) {
+function Pagination({ currentPage, totalPages, filterValue }) {
+  const { q, type, location } = filterValue;
+
+  // generatePageLink
+  function generatePageLink(page) {
+    const searchParams = new URLSearchParams({
+      ...(q && { q }),
+      ...(type && { type }),
+      ...(location && { location }),
+      page: page.toString(),
+    });
+
+    return `/?${searchParams.toString()}`;
+  }
+
   return (
-    <div className=" flex justify-between">
-      <h1 className=" text-center">Page</h1>
+    <div className="flex justify-between">
+      <Link
+        href={generatePageLink(currentPage - 1)}
+        className={cn(
+          "flex items-center gap-2 font-semibold",
+          currentPage <= 1 && "invisible"
+        )}
+      >
+        <BsArrowLeft size={16} />
+        Previous page
+      </Link>
+      <span className="font-semibold">
+        Page {currentPage} of {totalPages}
+      </span>
+      <Link
+        href={generatePageLink(currentPage + 1)}
+        className={cn(
+          "flex items-center gap-2 font-semibold",
+          currentPage >= totalPages && "invisible"
+        )}
+      >
+        Next page
+        <BsArrowRight size={16} />
+      </Link>
     </div>
   );
 }
