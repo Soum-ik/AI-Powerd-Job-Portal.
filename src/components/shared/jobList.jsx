@@ -9,7 +9,7 @@ import { formatMoney, relativeDate } from "@/lib/utils";
 
 function JobList({ job }) {
   return (
-    <article className="flex gap-3 rounded-lg border p-5 hover:bg-muted/60 cursor-pointer">
+    <article className="flex gap-3 rounded-lg border p-5  transition-all duration-300 hover:bg-muted/60 ">
       <Image
         alt={`${job.companyName} logo`}
         width={100}
