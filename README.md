@@ -1,4 +1,4 @@
-# My Notes App 📝
+# My Digital Job Search App 📝
 
 Welcome to Digital Job Search App - a feature-rich note-taking application inspired by the bd jobs
 
