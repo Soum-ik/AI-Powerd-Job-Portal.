@@ -1,8 +1,8 @@
 import Image from "next/image";
-import compmanyLogoPlaceHolder from "../../../public/company-logo-placeholder.png";
+// import compmanyLogoPlaceHolder from "../../../public/company-logo-placeholder.png";
+import { Badge } from "@/components/ui/badge";
 import { BiBriefcase, BiMapPin } from "react-icons/bi";
 import { ClockIcon } from "@radix-ui/react-icons";
-import { Badge } from "@/components/ui/badge";
 import { BsGlobe2 } from "react-icons/bs";
 import { GiBanknote } from "react-icons/gi";
 import { formatMoney, relativeDate } from "@/lib/utils";
@@ -15,7 +15,7 @@ function JobList({ job }) {
         width={100}
         height={100}
         className="self-center rounded-lg"
-        src={job.companyLogoUrl || compmanyLogoPlaceHolder}
+        src={job.companyLogoUrl || "/images/company-logo-placeholder.png"}
       />
       <div className=" flex-grow space-y-3">
         <div>
