@@ -20,18 +20,18 @@ it's a project i build for sylhet job search for everyone by morden way
 - **Server Action** : Makeing without api Interact with backend.
 - **ISG** : Fetching data from backend and caching it for faster performance.
 - **SSG** : Optimaited way to render file using [SSG] static site genaretion.
-
+<!-- 
 ## 🔍 Challenges & Solutions
 
 - Faced initial challenges with Appwrite auth, resolved by switching to the old version.
 - Encountered issues with types for Context API, resolved with default values and careful typing.
-- Created a custom checkbox block in Blocknote, adding a unique feature to the app.
-
+- Created a custom checkbox block in Blocknote, adding a unique feature to the app. -->
+<!-- 
 ## 🔴 Save Functionality Note:
 
-Due to a technical challenge, automatic saving onChange in the editor was causing issues. To ensure your notes are saved, please use the save button after writing, especially on desktop versions.
+Due to a technical challenge, automatic saving onChange in the editor was causing issues. To ensure your notes are saved, please use the save button after writing, especially on desktop versions. -->
 
-## 🚀 Try It Out
+<!-- ## 🚀 Try It Out
 
 You can check out the live [ here.](https://notes-lilac-seven.vercel.app/)
 
@@ -40,14 +40,14 @@ You can check out the live [ here.](https://notes-lilac-seven.vercel.app/)
 - **Dynamic Categories and Tags :** Introduce dynamic categorization and tagging for better organization.
 - **Improved Design :** Enhance the user interface with a fresh, modern design.
 - **PWA Offline Support :** Implement Progressive Web App (PWA) features for seamless offline access.
-- **Optimized Performance :** Further optimize app performance for smoother user experience.
+- **Optimized Performance :** Further optimize app performance for smoother user experience. -->
 
 ## 📚 Tech Stack
 
 **Client:** TypeScript, Next.js, Prisma, ShadCn UI Zod, Next-auth .
 
 **Appwrite:** Providing the backbone for backend services and cloud storage.
-
+<!-- 
 ## 🙌 Acknowledgements
 
-- **BlockNote:** [The open source Block-Based rich text editor](https://github.com/TypeCellOS/BlockNote)
+- **BlockNote:** [The open source Block-Based rich text editor](https://github.com/TypeCellOS/BlockNote) -->
