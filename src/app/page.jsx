@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import SearchJobsSidebar from "@/components/shared/SearchJobsSidebar";
 import JobResultsFiltered from "@/components/shared/JobResultsFiltered";
+import FancyText from "@/components/shared/FancyText";
 
 // Function to generate title based on search parameters
 function getTitle({ q, type, location, remote }) {
@@ -10,7 +11,7 @@ function getTitle({ q, type, location, remote }) {
     ? `${type} developer jobs`
     : remote
     ? "Remote developer jobs"
-    : "Sylhet Jobs";
+    : "Sylhet";
 
   const titleSuffix = location ? ` in ${location}` : "";
 
@@ -32,7 +33,7 @@ function Home({ searchParams }) {
         <h1
           className={cn("text-4xl font-extrabold tracking-tight lg:text-5xl")}
         >
-          {getTitle(filterValues)}
+          {getTitle(filterValues)}<FancyText className={'rotate-3 mx-4'}>Jobs</FancyText>
         </h1>
         <p className="">Find your dream job</p>
       </div>
