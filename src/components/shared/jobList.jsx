@@ -46,7 +46,7 @@ function JobList({ job }) {
         </div>
       </div>
       <div className="hidden  shrink-0 flex-col items-end justify-between sm:flex">
-        <Badge>{job.type}</Badge>
+        <Badge className="bg-neutral-800 py-1">{job.type}</Badge>
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <ClockIcon size={16} />
           {relativeDate(job.createdAt)}

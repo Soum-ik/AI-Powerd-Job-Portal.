@@ -16,9 +16,9 @@ function Navbar() {
             />
           </Link>
           <Link href={"/jobs/new"}>
-            <Button className=" font-medium text-lg cursor-pointer border rounded-md px-3 py-2 bg-gray-800 text-white ">
+            <button className=" font-medium text-lg cursor-pointer border rounded-md px-3 py-2 bg-neutral-800 text-white ">
               Post Job
-            </Button>
+            </button>
           </Link>
         </section>
       </nav>

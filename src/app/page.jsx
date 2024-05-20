@@ -31,7 +31,7 @@ function Home({ searchParams }) {
       {/* Heading */}
       <div className=" space-y-3 text-center">
         <h1
-          className={cn("text-4xl font-extrabold tracking-tight lg:text-5xl")}
+          className={cn("text-4xl font-extrabold tracking-tight lg:text-5xl text-neutral-800")}
         >
           {getTitle(filterValues)}<FancyText className={'rotate-3 mx-4'}>Jobs</FancyText>
         </h1>
