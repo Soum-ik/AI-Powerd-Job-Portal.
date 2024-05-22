@@ -25,7 +25,7 @@ export default async function JobResults({ filterValue, page = 1 }) {
           { companyName: { contains: searchString, mode: "insensitive" } },
           { type: { contains: searchString, mode: "insensitive" } },
           { location: { contains: searchString, mode: "insensitive" } },
-          { locationType: { contains: searchString, mode: "insensitive" } },
+          // { locationType: { contains: searchString, mode: "insensitive" } },
         ],
       }
     : {};

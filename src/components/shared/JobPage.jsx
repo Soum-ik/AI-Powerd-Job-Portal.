@@ -12,7 +12,7 @@ export default function JobPage({ job }) {
     companyName,
     applicationUrl,
     type,
-    locationType,
+    // locationType,
     location,
     salary,
     companyLogoUrl,
@@ -36,7 +36,7 @@ export default function JobPage({ job }) {
             <p className="font-semibold">
               {applicationUrl ? (
                 <Link
-                  href={new URL(applicationUrl).origin}
+                  href={applicationUrl}
                   className="text-green-500 hover:underline"
                 >
                   {companyName}
@@ -51,10 +51,10 @@ export default function JobPage({ job }) {
               <BiBriefcase size={16} className="shrink-0" />
               {type}
             </p>
-            <p className="flex items-center gap-1.5">
+            {/* <p className="flex items-center gap-1.5">
               <BiMapPin size={16} className="shrink-0" />
               {locationType}
-            </p>
+            </p> */}
             <p className="flex items-center gap-1.5">
               <BsGlobe2 size={16} className="shrink-0" />
               {location || "Worldwide"}

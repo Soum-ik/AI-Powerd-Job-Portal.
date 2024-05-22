@@ -19,7 +19,7 @@ model Job {
   slug             String   @unique
   title            String
   type             String
-  locationType     String
+  // locationType     String
   location         String?
   description      String?
   salary           Int

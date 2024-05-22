@@ -27,10 +27,10 @@ function JobList({ job }) {
             <BiBriefcase size={16} className="shrink-0" />
             {job.type}
           </p>
-          <p className="flex items-center gap-1.5">
+          {/* <p className="flex items-center gap-1.5">
             <BiMapPin size={16} className="shrink-0" />
             {job.locationType}
-          </p>
+          </p> */}
           <p className="flex items-center gap-1.5">
             <BsGlobe2 size={16} className="shrink-0" />
             {job.location || "Worldwide"}

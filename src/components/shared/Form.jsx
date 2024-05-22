@@ -27,10 +27,9 @@ function Form({ jobtype }) {
       location: "",
       applicationUrl: "",
       applicationEmail: "",
-      salary: "",
+      salary: 0,
     },
   ]);
-
 
   const handleFormChange = (name, value) => {
     setForm((prevForm) => ({
@@ -94,18 +93,39 @@ function Form({ jobtype }) {
     companyName,
     officeLocation,
     location,
-    website,
+    applicationUrl,
     applicationEmail,
-    Selary,
+    salary,
   } = form;
   console.table(form);
 
-  const formData = { type, description, companyLogoUrl, ...form };
-  console.table(formData);
+  const formData = {
+    salary,
+    type,
+    description,
+    companyLogoUrl,
+    title,
+    companyName,
+    officeLocation,
+    location,
+    applicationUrl,
+    applicationEmail,
+  };
 
-  function handleClick(e) {
+  async function handleClick(e) {
     e.preventDefault();
-    console.table();
+    try {
+      const api = await fetch("/api/job", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+      // const api = await fetch("/api/job", { method: "POST", body: formData });
+      console.log(api, "result");
+      const result = await api.json();
+      console.log(result, "result");
+    } catch (error) {
+      console.log(error, "Error");
+    }
   }
 
   return (
@@ -137,12 +157,13 @@ function Form({ jobtype }) {
           <Select
             value={type}
             onValueChange={(newValue) => setType(newValue)}
+            defaultValue="All Types"
             required
             name="location"
             id="location"
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="All Type" />
+              <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
               {jobtype.map((item, index) => (
@@ -224,11 +245,13 @@ function Form({ jobtype }) {
             Or
             <Input
               className="focus:border-2 focus:border-neutral-900 "
-              placeholder="Website"
-              name="Website"
-              value={website}
-              onChange={(e) => handleFormChange("website", e.target.value)}
-              id="Website"
+              placeholder="applicationUrl"
+              name="applicationUrl"
+              value={applicationUrl}
+              onChange={(e) =>
+                handleFormChange("applicationUrl", e.target.value)
+              }
+              id="applicationUrl"
             />
           </div>
         </div>
@@ -244,17 +267,17 @@ function Form({ jobtype }) {
         </div>
         <div>
           <label htmlFor="" className="text-medium">
-            Selary
+            Salary
           </label>
 
           <Input
             className="focus:border-2 focus:border-neutral-900 "
-            placeholder="Selary"
-            name="Selary"
+            placeholder="Salary"
+            name="salary"
             type="number"
-            value={Selary}
-            onChange={(e) => handleFormChange("Selary", e.target.value)}
-            id="Selary"
+            value={salary}
+            onChange={(e) => handleFormChange("salary", e.target.value)}
+            id="salary"
           />
         </div>
         <button
