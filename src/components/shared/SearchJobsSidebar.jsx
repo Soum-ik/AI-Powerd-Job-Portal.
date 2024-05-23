@@ -8,19 +8,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { filterJobs } from "@/lib/actions";
-import prisma from "@/lib/prisma";
-import { jobtype } from "@/lib/staticData";
 
+import { jobtype } from "@/lib/staticData";
+import { jobLocations } from "@/lib/server-action/job-location";
 async function SearchJobsSidebar({ defaultSearch }) {
-  const locations = await prisma.job.findMany({
-    where: {
-      approved: true,
-    },
-    select: {
-      location: true,
-    },
-  });
-  console.log(locations, "this all locations");
+  const jobs = await jobLocations();
+
   return (
     <aside className="sticky top-0 md:top-10 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
       <form action={filterJobs} className=" space-y-3">
@@ -61,7 +54,7 @@ async function SearchJobsSidebar({ defaultSearch }) {
               <SelectValue placeholder="All Location" />
             </SelectTrigger>
             <SelectContent>
-              {locations.map((item, index) => (
+              {jobs?.map((item, index) => (
                 <SelectItem key={index} value={item?.location}>
                   {item?.location}
                 </SelectItem>

@@ -48,13 +48,11 @@ export async function POST(req, res) {
 
     const data = await prisma.job.create({ data: jobData });
 
-    return NextResponse.json(
-      {
-        status: "Successfully data added",
-        data: data,
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({
+      message: "Successfully data added",
+      data: data,
+      status: 201,
+    });
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(
@@ -63,7 +61,6 @@ export async function POST(req, res) {
     );
   }
 }
-
 
 // get all jobs
 export async function GET(req, res) {
@@ -81,4 +78,3 @@ export async function GET(req, res) {
     );
   }
 }
-

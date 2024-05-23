@@ -124,18 +124,22 @@ function Form({ jobtype }) {
         body: JSON.stringify(formData),
       });
       const result = await api.json();
-      setForm({
-        title: "",
-        companyName: "",
-        officeLocation: "",
-        location: "",
-        applicationUrl: "",
-        applicationEmail: "",
-        salary: 0,
-      });
-      setDescription('')
-      console.log(res);
-      setloading(false);
+      if (result.status === 201) {
+        toast.success("Job Post Successfully");
+        setForm({
+          title: "",
+          companyName: "",
+          officeLocation: "",
+          location: "",
+          applicationUrl: "",
+          applicationEmail: "",
+          salary: 0,
+        });
+        setDescription("");
+        setloading(false);
+      } else {
+        toast.error("Job Post Unsuccessfull")
+      }
     } catch (error) {
       console.log(error, "Error");
       setloading(false);
