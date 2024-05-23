@@ -11,13 +11,14 @@ import { useState } from "react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
-import { submitForm } from "@/lib/actions";
 import { useCreateBlockNote } from "@blocknote/react";
+import toast, { Toaster } from "react-hot-toast";
 
 function Form({ jobtype }) {
   const [description, setDescription] = useState("");
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setloading] = useState(false);
+
   const [type, setType] = useState("");
   const [form, setForm] = useState([
     {
@@ -49,6 +50,8 @@ function Form({ jobtype }) {
       const uploadUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
 
       try {
+        toast.loading("Image Uploading..", { duration: 2000 });
+
         const response = await fetch(uploadUrl, {
           method: "POST",
           body: formData,
@@ -57,8 +60,9 @@ function Form({ jobtype }) {
         if (response.ok) {
           const { data } = await response.json();
           setCompanyLogoUrl(data.display_url);
+          toast.success("Image Uploaded Successfully");
         } else {
-          console.log("Failed to upload image");
+          toast.error("Your Image are not uploaded");
         }
       } catch (error) {
         console.log("Error uploading image:", error);
@@ -97,7 +101,6 @@ function Form({ jobtype }) {
     applicationEmail,
     salary,
   } = form;
-  console.table(form);
 
   const formData = {
     salary,
@@ -115,16 +118,27 @@ function Form({ jobtype }) {
   async function handleClick(e) {
     e.preventDefault();
     try {
+      setloading(true);
       const api = await fetch("/api/job", {
         method: "POST",
         body: JSON.stringify(formData),
       });
-      // const api = await fetch("/api/job", { method: "POST", body: formData });
-      console.log(api, "result");
       const result = await api.json();
-      console.log(result, "result");
+      setForm({
+        title: "",
+        companyName: "",
+        officeLocation: "",
+        location: "",
+        applicationUrl: "",
+        applicationEmail: "",
+        salary: 0,
+      });
+      setDescription('')
+      console.log(res);
+      setloading(false);
     } catch (error) {
       console.log(error, "Error");
+      setloading(false);
     }
   }
 
@@ -283,11 +297,12 @@ function Form({ jobtype }) {
         <button
           type="submit"
           onClick={handleClick}
-          class="bg-neutral-800 text-neutral-100 gap-2 flex items-center justify-center rounded-md px-3 py-1"
+          disabled={loading}
+          className={`bg-neutral-800  text-neutral-100 gap-2 flex items-center justify-center rounded-md px-3 py-1 disabled:bg-neutral-700`}
         >
           {loading ? (
             <>
-              <div class="animate-spin border-b border-t rounded-full border-neutral-100 size-4 bg-neutral-800"></div>
+              <div className="animate-spin border-b border-2 rounded-full border-neutral-100 size-6 bg-neutral-800"></div>
               <p>{`Processing...`} </p>
             </>
           ) : (
@@ -295,6 +310,7 @@ function Form({ jobtype }) {
           )}
         </button>
       </form>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
