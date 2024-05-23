@@ -7,30 +7,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { BlockNoteView } from "@blocknote/mantine";
-import "@blocknote/core/fonts/inter.css";
-import "@blocknote/mantine/style.css";
-import { useCreateBlockNote } from "@blocknote/react";
+import { useState, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { redirect, useRouter } from "next/navigation";
+import RichTextEditor from "@/components/shared/RichTextEditor";
 
 function Form({ jobtype }) {
+  const router = useRouter();
+  const editorRef = useRef(null); // Editor reference
   const [description, setDescription] = useState("");
+
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [type, setType] = useState("");
-  const [form, setForm] = useState([
-    {
-      title: "",
-      companyName: "",
-      officeLocation: "",
-      location: "",
-      applicationUrl: "",
-      applicationEmail: "",
-      salary: 0,
-    },
-  ]);
+  const [form, setForm] = useState({
+    title: "",
+    companyName: "",
+    officeLocation: "",
+    location: "",
+    applicationUrl: "",
+    applicationEmail: "",
+    salary: 0,
+  });
 
   const handleFormChange = (name, value) => {
     setForm((prevForm) => ({
@@ -69,28 +68,6 @@ function Form({ jobtype }) {
       }
     }
   };
-  const editor = useCreateBlockNote({
-    initialContent: [
-      {
-        type: "paragraph",
-        content: [
-          {
-            type: "text",
-            text: `
-  
-            `,
-            styles: {
-              bold: false,
-            },
-          },
-        ],
-      },
-    ],
-  });
-  const onChange = async () => {
-    const updatedMarkdown = await editor.blocksToMarkdownLossy(editor.document);
-    setDescription(updatedMarkdown);
-  };
 
   const {
     title,
@@ -118,31 +95,30 @@ function Form({ jobtype }) {
   async function handleClick(e) {
     e.preventDefault();
     try {
-      setloading(true);
+      setLoading(true);
+      const editorContent = editorRef.current.getEditorContent();
+      const finalFormData = {
+        ...form,
+        description: editorContent,
+        type,
+        companyLogoUrl,
+      };
+
       const api = await fetch("/api/job", {
         method: "POST",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(finalFormData),
       });
       const result = await api.json();
       if (result.status === 201) {
         toast.success("Job Post Successfully");
-        setForm({
-          title: "",
-          companyName: "",
-          officeLocation: "",
-          location: "",
-          applicationUrl: "",
-          applicationEmail: "",
-          salary: 0,
-        });
-        setDescription("");
-        setloading(false);
+        router.replace("/job-submitted");
       } else {
-        toast.error("Job Post Unsuccessfull")
+        toast.error("Job Post Unsuccessful");
       }
+      // Rest of your logic...
     } catch (error) {
       console.log(error, "Error");
-      setloading(false);
+      setLoading(false);
     }
   }
 
@@ -156,7 +132,7 @@ function Form({ jobtype }) {
           </p>
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="title" className="text-medium">
             Job title
           </label>
           <Input
@@ -165,11 +141,11 @@ function Form({ jobtype }) {
             name="title"
             value={title}
             onChange={(e) => handleFormChange("title", e.target.value)}
-            id="q"
+            id="title"
           />
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="job-type" className="text-medium">
             Job Type
           </label>
           <Select
@@ -177,8 +153,8 @@ function Form({ jobtype }) {
             onValueChange={(newValue) => setType(newValue)}
             defaultValue="All Types"
             required
-            name="location"
-            id="location"
+            name="job-type"
+            id="job-type"
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="All Types" />
@@ -193,7 +169,7 @@ function Form({ jobtype }) {
           </Select>
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="companyName" className="text-medium">
             Company Name
           </label>
           <Input
@@ -206,7 +182,7 @@ function Form({ jobtype }) {
           />
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="image" className="text-medium">
             Company logo
           </label>
           <Input
@@ -220,7 +196,7 @@ function Form({ jobtype }) {
           />
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="officeLocation" className="text-medium">
             Office location
           </label>
           <Input
@@ -229,11 +205,11 @@ function Form({ jobtype }) {
             name="officeLocation"
             value={officeLocation}
             onChange={(e) => handleFormChange("officeLocation", e.target.value)}
-            id="location"
+            id="officeLocation"
           />
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="location" className="text-medium">
             Location
           </label>
           <Input
@@ -246,10 +222,10 @@ function Form({ jobtype }) {
           />
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="applicationEmail" className="text-medium">
             How to apply
           </label>
-          <div className="  flex gap-3 items-center">
+          <div className="flex gap-3 items-center">
             <Input
               className="focus:border-2 focus:border-neutral-900 "
               placeholder="email"
@@ -273,21 +249,18 @@ function Form({ jobtype }) {
             />
           </div>
         </div>
-
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="description" className="text-medium">
             Description
           </label>
-
           <div className="border rounded-md py-2 min-h-40">
-            <BlockNoteView editor={editor} onChange={onChange} />
+            <RichTextEditor ref={editorRef} />
           </div>
         </div>
         <div>
-          <label htmlFor="" className="text-medium">
+          <label htmlFor="salary" className="text-medium">
             Salary
           </label>
-
           <Input
             className="focus:border-2 focus:border-neutral-900 "
             placeholder="Salary"
@@ -302,12 +275,12 @@ function Form({ jobtype }) {
           type="submit"
           onClick={handleClick}
           disabled={loading}
-          className={`bg-neutral-800  text-neutral-100 gap-2 flex items-center justify-center rounded-md px-3 py-1 disabled:bg-neutral-700`}
+          className={`bg-neutral-800 text-neutral-100 gap-2 flex items-center justify-center rounded-md px-3 py-1 disabled:bg-neutral-700`}
         >
           {loading ? (
             <>
               <div className="animate-spin border-b border-2 rounded-full border-neutral-100 size-6 bg-neutral-800"></div>
-              <p>{`Processing...`} </p>
+              <p>{`Processing...`}</p>
             </>
           ) : (
             <p>Submit</p>

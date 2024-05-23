@@ -5,6 +5,7 @@ export async function Unapproved() {
     where: {
       approved: false,
     },
+    orderBy: { createdAt: "desc" },
   });
   return Unapproved;
 }

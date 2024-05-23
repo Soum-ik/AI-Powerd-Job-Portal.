@@ -22,8 +22,8 @@ function page() {
         </div>
       </div>
       <div className=" ">
-        <aside className=" absolute right-0 mx-10 bottom-5 ">
-          <FaQuestionCircle size={30} />
+        <aside className=" absolute  right-0 mx-10 bottom-5 ">
+          <FaQuestionCircle size={26} />
         </aside>
       </div>
     </section>
