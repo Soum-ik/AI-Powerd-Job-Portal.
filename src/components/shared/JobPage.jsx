@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Markdown from "./Markdown";
-import { BiBriefcase, BiMapPin } from "react-icons/bi";
+import { BiBriefcase } from "react-icons/bi";
 import { BsGlobe2 } from "react-icons/bs";
 import { GiBanknote } from "react-icons/gi";
 

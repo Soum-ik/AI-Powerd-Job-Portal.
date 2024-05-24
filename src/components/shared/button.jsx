@@ -1,13 +1,16 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React from "react";
-// import { useFormState } from "react-dom";
 
-export default function Button({ className, children, ...props }) {
-  // const { pending } = useFormState();
- 
+export default function Button({ className, children, fun }) {
+  console.log(fun, "this is a funcatio calling here! ");
   return (
-    <button className={cn(className)} {...props}>
+    <button
+      className={cn(className)}
+      onClick={async () => {
+        await fun();
+      }}
+    >
       {`${children}`}
     </button>
   );

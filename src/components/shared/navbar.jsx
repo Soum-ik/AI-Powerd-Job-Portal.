@@ -1,10 +1,9 @@
 import Image from "next/image";
-import Button from "./button";
 import Link from "next/link";
 
 function Navbar() {
   return (
-    <div className=" border-b shadow-sm">
+    <div className=" z-10  fixed top-0 right-0 left-0 backdrop-blur-sm shadow-sm">
       <nav className="mx-auto  max-w-5xl my-3 px-3">
         <section className=" flex justify-between items-center">
           <Link href={"/"}>

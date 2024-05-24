@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 export default async function JobResults({ filterValue, page = 1 }) {
-  const jobsPerPage = 6;
+  const jobsPerPage = 10;
   const skip = (page - 1) * jobsPerPage;
   const { q, type, location } = filterValue;
 

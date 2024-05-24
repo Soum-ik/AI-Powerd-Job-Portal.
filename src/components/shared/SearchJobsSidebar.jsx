@@ -15,7 +15,7 @@ async function SearchJobsSidebar({ defaultSearch }) {
   const jobs = await jobLocations();
 
   return (
-    <aside className="sticky top-0 md:top-10 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
+    <aside className="sticky top-0 md:top-28 tabular-nums h-fit rounded-lg border bg-background p-4 md:w-[260px]">
       <form action={filterJobs} className=" space-y-3">
         <div>
           <label htmlFor="" className="text-medium">

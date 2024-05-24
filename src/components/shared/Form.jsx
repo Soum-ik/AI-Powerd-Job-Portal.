@@ -14,8 +14,7 @@ import RichTextEditor from "@/components/shared/RichTextEditor";
 
 function Form({ jobtype }) {
   const router = useRouter();
-  const editorRef = useRef(null); // Editor reference
-  const [description, setDescription] = useState("");
+  const editorRef = useRef(null);
 
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -79,21 +78,14 @@ function Form({ jobtype }) {
     salary,
   } = form;
 
-  const formData = {
-    salary,
-    type,
-    description,
-    companyLogoUrl,
-    title,
-    companyName,
-    officeLocation,
-    location,
-    applicationUrl,
-    applicationEmail,
-  };
+   
 
   async function handleClick(e) {
     e.preventDefault();
+    if (!editorRef || !type || !companyLogoUrl) {
+      toast.error("Field are not filled!");
+      return;
+    }
     try {
       setLoading(true);
       const editorContent = editorRef.current.getEditorContent();
@@ -110,13 +102,15 @@ function Form({ jobtype }) {
       });
       const result = await api.json();
       if (result.status === 201) {
+        setLoading(false);
         toast.success("Job Post Successfully");
         router.replace("/job-submitted");
       } else {
+        setLoading(false);
         toast.error("Job Post Unsuccessful");
       }
-      // Rest of your logic...
     } catch (error) {
+      setLoading(false);
       console.log(error, "Error");
       setLoading(false);
     }
@@ -142,6 +136,7 @@ function Form({ jobtype }) {
             value={title}
             onChange={(e) => handleFormChange("title", e.target.value)}
             id="title"
+            required
           />
         </div>
         <div>
@@ -179,6 +174,7 @@ function Form({ jobtype }) {
             onChange={(e) => handleFormChange("companyName", e.target.value)}
             value={companyName}
             id="companyName"
+            required
           />
         </div>
         <div>
@@ -206,6 +202,7 @@ function Form({ jobtype }) {
             value={officeLocation}
             onChange={(e) => handleFormChange("officeLocation", e.target.value)}
             id="officeLocation"
+            required
           />
         </div>
         <div>
@@ -216,6 +213,7 @@ function Form({ jobtype }) {
             className="focus:border-2 focus:border-neutral-900 "
             placeholder="location"
             name="location"
+            required
             value={location}
             onChange={(e) => handleFormChange("location", e.target.value)}
             id="location"
@@ -229,6 +227,7 @@ function Form({ jobtype }) {
             <Input
               className="focus:border-2 focus:border-neutral-900 "
               placeholder="email"
+              required
               value={applicationEmail}
               onChange={(e) =>
                 handleFormChange("applicationEmail", e.target.value)
@@ -241,6 +240,7 @@ function Form({ jobtype }) {
               className="focus:border-2 focus:border-neutral-900 "
               placeholder="applicationUrl"
               name="applicationUrl"
+              required
               value={applicationUrl}
               onChange={(e) =>
                 handleFormChange("applicationUrl", e.target.value)
@@ -266,6 +266,7 @@ function Form({ jobtype }) {
             placeholder="Salary"
             name="salary"
             type="number"
+            required
             value={salary}
             onChange={(e) => handleFormChange("salary", e.target.value)}
             id="salary"
@@ -287,7 +288,7 @@ function Form({ jobtype }) {
           )}
         </button>
       </form>
-      <Toaster position="bottom-right" />
+      <Toaster position="top-center" />
     </div>
   );
 }
