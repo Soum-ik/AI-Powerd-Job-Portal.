@@ -1,10 +1,9 @@
 "use server";
-
 import { redirect } from "next/navigation";
 import prisma from "../prisma";
 
 export async function approved(slug) {
-  const approved = await prisma.job.update({
+  await prisma.job.update({
     where: {
       slug: slug,
     },
@@ -16,7 +15,9 @@ export async function approved(slug) {
       approved: true,
     },
   });
-
-  redirect('/admin')
-  return approved;
+  slug = slug.split("-").slice(0, 1);
+  const searchParams = new URLSearchParams({
+    ...{ q: slug },
+  });
+  redirect(`/?${searchParams}`);
 }

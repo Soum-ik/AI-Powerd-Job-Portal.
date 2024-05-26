@@ -13,7 +13,7 @@ import { jobtype } from "@/lib/staticData";
 import { jobLocations } from "@/lib/server-action/job-location";
 async function SearchJobsSidebar({ defaultSearch }) {
   const jobs = await jobLocations();
-
+  
   return (
     <aside className="sticky top-0 md:top-28 tabular-nums h-fit rounded-lg border bg-background p-4 md:w-[260px]">
       <form action={filterJobs} className=" space-y-3">

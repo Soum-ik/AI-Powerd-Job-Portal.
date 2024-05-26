@@ -10,6 +10,6 @@ export async function jobLocations() {
     select: {
       location: true,
     },
-  }); 
+  });
   return locations;
 }

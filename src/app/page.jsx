@@ -6,7 +6,7 @@ import FancyText from "@/components/shared/FancyText";
 // Function to generate title based on search parameters
 function getTitle({ q, type, location, remote }) {
   const titlePrefix = q
-    ? `${q} jobs`
+    ? `${q}`
     : type
     ? `${type} developer jobs`
     : "All Sylhet  ";
@@ -30,7 +30,7 @@ function Home({ searchParams }) {
       <div className=" space-y-3 text-center">
         <h1
           className={cn(
-            "text-4xl font-extrabold tracking-tight lg:text-5xl text-neutral-800"
+            "text-4xl font-extrabold tracking-tight lg:text-5xl text-neutral-800 capitalize tabular-nums"
           )}
         >
           {getTitle(filterValues)}

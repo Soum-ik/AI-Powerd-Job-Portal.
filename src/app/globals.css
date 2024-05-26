@@ -74,3 +74,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .button {
+    @apply font-medium text-lg cursor-pointer border rounded-md px-3 py-2 bg-neutral-800/90 text-white;
+  }
+}

@@ -4,6 +4,11 @@ import { jobFilterSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 
 export async function filterJobs(formData) {
+  await new Promise((resolve, reject) => {
+    return setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
   const values = Object.fromEntries(formData.entries());
   const { q, location, type } = jobFilterSchema.parse(values);
 

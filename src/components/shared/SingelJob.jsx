@@ -1,14 +1,25 @@
 "use client";
-import Button from "./button";
 import Image from "next/image";
 import { ClockIcon } from "@radix-ui/react-icons";
 import { BsGlobe2 } from "react-icons/bs";
 import { GiBanknote } from "react-icons/gi";
 import { formatMoney, relativeDate } from "@/lib/utils";
 import { approved } from "@/lib/server-action/approved";
+import { deleteJob } from "@/lib/server-action/delete";
+import { FindQuine } from "@/lib/server-action/find-quine";
+
 
 function SingelJob({ job }) {
-  console.log(job.slug, "update this job");
+  const handleClick = async (slug, operation) => {
+    if (operation === "approved") {
+      await approved(slug);
+    } else if (operation === "delete") {
+      await deleteJob(slug);
+    } else if (operation === "show") {
+      await FindQuine(slug);
+    }
+  };
+
   return (
     <article className="flex gap-3 w-full  justify-between rounded-lg border p-5  transition-all duration-300 hover:bg-muted/60">
       <Image
@@ -43,14 +54,24 @@ function SingelJob({ job }) {
         </div>
       </div>
       <div className=" flex-grow max-w-max space-y-1 flex  flex-col">
-        <Button
-          fun={() => approved(job.slug)}
-          className={
-            " font-medium text-lg cursor-pointer border rounded-md px-3 py-2 bg-neutral-800/90 text-white"
-          }
+        <button
+          onClick={() => handleClick(job.slug, "approved")}
+          className=" button"
         >
-          Approve Job
-        </Button>
+          Approved Job
+        </button>
+        <button
+          onClick={() => handleClick(job.slug, "delete")}
+          className=" button"
+        >
+          Delete Job
+        </button>
+        <button
+          onClick={() => handleClick(job.slug, "show")}
+          className=" button"
+        >
+          Show Job
+        </button>
       </div>
     </article>
   );
