@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Markdown from "./Markdown";
+import Markdown from "@/components/shared/MarkDown";
 import { BiBriefcase } from "react-icons/bi";
 import { BsGlobe2 } from "react-icons/bs";
 import { GiBanknote } from "react-icons/gi";
