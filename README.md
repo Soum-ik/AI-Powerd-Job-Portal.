@@ -12,6 +12,7 @@ it's a project i build for sylhet job search for everyone by morden way
 - **Super Admin Route**
 - **Jobs Post**
 - **Search**
+- **Forgot Password**
 - **Mobile Responsiveness**
 
 ## 🧠 New Learnings
