@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-
+import { headers } from "next/headers";
 const prisma = new PrismaClient();
 
 // Create new job
 export async function POST(req, res) {
   try {
-    let reqBody = await req.json();
+    const reqBody = await req.json();
+    const requestHeaders = headers();
+    const id = requestHeaders.get("id");
 
     if (!reqBody) {
       return NextResponse.json({ status: "Data Not Found" }, { status: 400 });
@@ -44,9 +46,19 @@ export async function POST(req, res) {
       salary,
       location: combiningLocaiton,
       slug: slugMaker,
+      userId: id,
     };
 
     const data = await prisma.job.create({ data: jobData });
+    console.log(data, "added successfully");
+
+    const find = await prisma.job.findUnique({
+      where: {
+        userId: "665714c3f6e96c926d6e5b56",
+      },
+    });
+
+    console.log(find, 'datas from useid');
 
     return NextResponse.json({
       message: "Successfully data added",

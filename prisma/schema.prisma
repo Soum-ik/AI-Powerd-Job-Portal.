@@ -34,6 +34,8 @@ model User {
   email     String   @unique
   name      String
   password  String
+  image     String?
+  opt       Int      @default(0)
   jobs      Job[]    @relation
   role      UserRole @default(USER)
   createdAt DateTime @default(now())

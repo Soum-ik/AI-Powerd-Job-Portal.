@@ -14,7 +14,7 @@ import RichTextEditor from "@/components/shared/RichTextEditor";
 
 function Form({ jobtype }) {
   const router = useRouter();
-  const editorRef = useRef(null);
+  const editorRef = useRef(null);  
 
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,8 +78,6 @@ function Form({ jobtype }) {
     salary,
   } = form;
 
-   
-
   async function handleClick(e) {
     e.preventDefault();
     if (!editorRef || !type || !companyLogoUrl) {
@@ -89,6 +87,7 @@ function Form({ jobtype }) {
     try {
       setLoading(true);
       const editorContent = editorRef.current.getEditorContent();
+      console.log(editorContent, "editor content");
       const finalFormData = {
         ...form,
         description: editorContent,

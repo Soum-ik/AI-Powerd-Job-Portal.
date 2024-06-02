@@ -7,12 +7,14 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then(mod => mod.Editor),
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
 
 const RichTextEditor = forwardRef(function RichTextEditor(props, ref) {
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
 
   useImperativeHandle(ref, () => ({
     getEditorContent: () => {
@@ -22,7 +24,7 @@ const RichTextEditor = forwardRef(function RichTextEditor(props, ref) {
     setEditorContent: (rawContent) => {
       const contentState = convertFromRaw(JSON.parse(rawContent));
       setEditorState(EditorState.createWithContent(contentState));
-    }
+    },
   }));
 
   return (
@@ -36,8 +38,8 @@ const RichTextEditor = forwardRef(function RichTextEditor(props, ref) {
       toolbar={{
         options: ["inline", "list", "link", "history"],
         inline: {
-          options: ["bold", "italic", "underline"]
-        }
+          options: ["bold", "italic", "underline"],
+        },
       }}
       {...props}
     />
