@@ -9,6 +9,7 @@ export async function CheckCookieAuth(req) {
     }
     let payload = await VerifyToken(token["value"]);
 
+    console.log(payload, "payload check")
     var requestHeader = new Headers(req.headers);
     // console.log(requestHejader, "this is a request header option");
     requestHeader.set("token", payload);

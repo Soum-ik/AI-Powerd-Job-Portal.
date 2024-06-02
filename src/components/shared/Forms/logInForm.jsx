@@ -40,22 +40,23 @@ const SignInForm = () => {
         body: JSON.stringify(formData),
       });
       const responseData = await response.json();
-      console.log(responseData, "respons data");
+
+      if (responseData.status === 200) {
+        setLoading(false);
+        console.log("start");
+        router.replace("/jobs/new");
+        console.log("end");
+        toast.success("Login successful!");
+        return
+      }
       if (responseData.status === 204) {
         setLoading(false);
         toast.error(responseData.message);
         return;
       }
-      if (responseData.status === 200) {
-        setLoading(false);
-        toast.success("Login successful!");
-        router.replace("/jobs/new");
-        return;
-      }
       toast.error("Something want wrong");
       setLoading(false);
       console.log(responseData);
-      // Handle successful login (e.g., redirect, store token, etc.)
     } catch (err) {
       setLoading(false);
       console.log(err.message);
@@ -88,7 +89,7 @@ const SignInForm = () => {
           Password
         </label>
         <input
-          type="password"
+          type="text"
           id="password"
           name="password"
           value={formData.password}
