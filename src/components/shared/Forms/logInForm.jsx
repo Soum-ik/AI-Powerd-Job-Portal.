@@ -25,14 +25,14 @@ const SignInForm = () => {
     });
   };
 
-  console.log(apiUrl, "testing url");
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Add form submission logic here
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}Userauth/login`, {
+      const response = await fetch(`http://localhost:3000/api/Userauth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,11 +43,9 @@ const SignInForm = () => {
 
       if (responseData.status === 200) {
         setLoading(false);
-        console.log("start");
-        router.replace("/jobs/new");
-        console.log("end");
+        router.push("/jobs/new");
         toast.success("Login successful!");
-        return
+        return;
       }
       if (responseData.status === 204) {
         setLoading(false);
@@ -55,11 +53,10 @@ const SignInForm = () => {
         return;
       }
       toast.error("Something want wrong");
-      setLoading(false);
-      console.log(responseData);
+      setLoading(false); 
     } catch (err) {
       setLoading(false);
-      console.log(err.message);
+      console.log(err);
       toast.error(`Error: ${err.message}`);
     }
   };

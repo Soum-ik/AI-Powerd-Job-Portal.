@@ -20,7 +20,7 @@ function Page() {
         },
       });
       const data = await response.json();
-      console.log(data, "result");
+ 
       setLoading(false);
 
       if (data.status === 200) {

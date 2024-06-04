@@ -8,7 +8,8 @@ export async function POST(req, res) {
   try {
     const reqBody = await req.json();
     const requestHeaders = headers();
-    const id = requestHeaders.get("id");
+    const userId = requestHeaders.get("id");
+     
 
     if (!reqBody) {
       return NextResponse.json({ status: "Data Not Found" }, { status: 400 });
@@ -19,7 +20,7 @@ export async function POST(req, res) {
     if (!title || !salary) {
       return NextResponse.json(
         { status: "Title or Salary missing" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -28,7 +29,7 @@ export async function POST(req, res) {
     if (isNaN(salary)) {
       return NextResponse.json(
         { status: "Invalid salary format" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -46,19 +47,11 @@ export async function POST(req, res) {
       salary,
       location: combiningLocaiton,
       slug: slugMaker,
-      userId: id,
+      userId: userId,
     };
 
     const data = await prisma.job.create({ data: jobData });
-    console.log(data, "added successfully");
-
-    const find = await prisma.job.findUnique({
-      where: {
-        userId: "665714c3f6e96c926d6e5b56",
-      },
-    });
-
-    console.log(find, 'datas from useid');
+    
 
     return NextResponse.json({
       message: "Successfully data added",
@@ -69,7 +62,7 @@ export async function POST(req, res) {
     console.error("Error occurred:", error);
     return NextResponse.json(
       { status: "fail", error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -80,13 +73,13 @@ export async function GET(req, res) {
     const data = await prisma.job.findMany({});
     return NextResponse.json(
       { status: "Successfully get Data", data: data },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(
       { status: "fail", error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

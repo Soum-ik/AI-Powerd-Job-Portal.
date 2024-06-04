@@ -57,8 +57,7 @@ const SignUpForm = () => {
         setLoading(false);
 
         toast.error("Something went wrong");
-      }
-      console.log(data);
+      } 
       setLoading(false);
     } catch (error) {
       setLoading(false);

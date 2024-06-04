@@ -87,7 +87,7 @@ function Form({ jobtype }) {
     try {
       setLoading(true);
       const editorContent = editorRef.current.getEditorContent();
-      console.log(editorContent, "editor content");
+     
       const finalFormData = {
         ...form,
         description: editorContent,

@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { CreateToken } from "@/lib/Next-auth/jwtHelper";
+import { CreateToken } from "../../../../lib/Next-auth/jwtHelper";
 
 export async function POST(req, res) {
   try {

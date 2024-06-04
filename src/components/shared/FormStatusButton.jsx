@@ -5,10 +5,7 @@ import { useFormStatus } from "react-dom";
 import toast, { Toaster } from "react-hot-toast";
 export default function Button({ className, children }) {
   const { pending, action, data, method } = useFormStatus();
-  console.log(pending, "data from client");
-  console.log(action, "datas");
-  console.log(data, "datas");
-  console.log(method, "datas");
+ 
   return (
     <div>
       <Toaster position="top-center" />

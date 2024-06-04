@@ -12,7 +12,7 @@ export async function GET(req, res) {
     const _isAvailable = await prisma.user.count({ where: { email: email } });
     //   randomm number genrator
     const _randomNumberGenretor = Math.floor(Math.random() * 130000);
-    console.log(_randomNumberGenretor, "random number genrator");
+   
     if (_isAvailable === 1) {
       const _updateOtp = await prisma.user.update({
         where: {
@@ -53,8 +53,7 @@ export async function GET(req, res) {
 export async function POST(req, res) {
   try {
     const reqBody = await req.json();
-    const otp  = parseInt(reqBody)
-    console.log(typeof(reqBody), "body found");
+    const otp  = parseInt(reqBody) 
 
     const verifiyCode = await prisma.user.count({
       where: {
@@ -85,10 +84,7 @@ export async function PUT(req, res) {
     const reqBody = await req.json();
 
     const { email, password } = reqBody;
-
-    console.log(email);
-    console.log(password);
-
+ 
     const update = await prisma.user.update({
       where: {
         email: email,

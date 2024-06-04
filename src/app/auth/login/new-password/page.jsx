@@ -34,7 +34,7 @@ function Page() {
       });
 
       const data = await response.json();
-      console.log(data, "data");
+ 
       setLoading(false);
       if (data.status === 200) {
         router.replace("/auth/login");
@@ -45,9 +45,7 @@ function Page() {
       setLoading(false);
       console.log(error);
     }
-  };
-
-  console.log(formData, "data");
+  }; 
   return (
     <div className=" fixed bg-white text-white inset-0 flex items-center justify-center">
       <form

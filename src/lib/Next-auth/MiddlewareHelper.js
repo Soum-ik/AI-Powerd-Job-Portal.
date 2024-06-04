@@ -3,25 +3,28 @@ import { VerifyToken } from "./jwtHelper.js";
 
 export async function CheckCookieAuth(req) {
   try {
-    let token = req.cookies.get("token");
+    const token = req.cookies.get("token");
+
+     
     if (!token) {
       throw new Error("Token not found in cookies");
     }
-    let payload = await VerifyToken(token["value"]);
 
-    console.log(payload, "payload check")
-    var requestHeader = new Headers(req.headers);
-    // console.log(requestHejader, "this is a request header option");
-    requestHeader.set("token", payload);
+    const payload = await VerifyToken(token["value"]);
+
+    if (!payload.email || !payload.id) {
+      throw new Error("Invalid token payload");
+    }
+
+    const requestHeader = new Headers(req.headers);
     requestHeader.set("email", payload.email);
     requestHeader.set("id", payload.id);
-    // console.log(requestHeader, "this is a request modified header option");
-    
+
     return NextResponse.next({
       request: { headers: requestHeader },
     });
   } catch (error) {
-    console.log(error, "error message");
+    console.error("Middleware Error:", error);
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 }
