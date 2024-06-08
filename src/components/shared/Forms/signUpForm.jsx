@@ -28,7 +28,7 @@ const SignUpForm = () => {
     // Add form submission logic here
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/Userauth/signup", {
+      const res = await fetch("https://sylhet-job.vercel.app/api/Userauth/signup", {
         body: JSON.stringify(formData),
         method: "POST",
         headers: {
