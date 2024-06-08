@@ -10,10 +10,12 @@ export default function Error({ error, reset }) {
 
   return (
     <div className="mx-auto my-20 max-w-5xl p-3">
-      <h2 className="text-3xl font-semibold text-neutral-800">
+      <h2 className="text-center text-3xl font-semibold text-neutral-800">
         Something went wrong!
+        {JSON.stringify(error)}
       </h2>
       <button
+        className="text-center"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()

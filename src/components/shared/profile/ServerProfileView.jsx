@@ -1,8 +1,8 @@
-import { RoleChecker } from "../../../lib/Next-auth/RoleChecker";
 import ProfileView from "./profileView";
+import { RoleChecker } from "@/lib/Next-auth/RoleChecker";
 
 export default async function ServerProfileView() {
-  // const { profile } = await RoleChecker();
-  // let profile;
-  return <ProfileView   />;
+  // const profile = RoleChecker();
+  // console.log(profile, "hello amin");
+  return <ProfileView />;
 }

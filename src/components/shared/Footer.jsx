@@ -1,4 +1,4 @@
-import React from "react";
+import Link from "next/link";
 
 function Footer() {
   return (
@@ -12,7 +12,7 @@ function Footer() {
         </div>
 
         <div>
-          <h1>Give a Star On GitHub</h1>
+          <Link className=" cursor-pointer" target="_blank" href={'https://github.com/Soum-ik/job-search-'}>Give a Star On GitHub</Link>
         </div>
       </section>
     </footer>

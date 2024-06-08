@@ -6,9 +6,7 @@ import { RoleChecker } from "@/lib/Next-auth/RoleChecker";
 
 async function page() {
   // get the value from cookie
-  const {
-    profile: { id },
-  } = await RoleChecker();
+  const { id } = await RoleChecker();
 
   // get the id from cookie and find profile by cookie data
   const profile = await prisma.user.findUnique({
@@ -21,10 +19,10 @@ async function page() {
   const unapproved = await ReUnapproved(id);
   // filtering approved by id
   const approved = await ReApproved(id);
- 
+
   // log
   return (
-    <div className="mx-auto max-w-5xl p-3 sm:p-0 my-28" >
+    <div className="mx-auto my-28 max-w-5xl p-3">
       <div className="flex justify-between">
         <div className="relative rounded-full">
           <Image
@@ -50,7 +48,7 @@ async function page() {
         </h1>
         <div className="mt-10 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-2 md:px-5">
           <div className="max-w-xl">
-            <h1 className="md:text-lg text-sm ">Approved Jobs:</h1>
+            <h1 className="text-sm md:text-lg">Approved Jobs:</h1>
             <div className="mt-3">
               {approved.map((data, idx) => (
                 <JobList job={data} key={idx} />
@@ -61,7 +59,7 @@ async function page() {
             )}
           </div>
           <div className="max-w-xl">
-            <h1 className="md:text-lg text-sm ">Unapproved Jobs:</h1>
+            <h1 className="text-sm md:text-lg">Unapproved Jobs:</h1>
             <div className="mt-3">
               {unapproved.map((data, idx) => (
                 <JobList job={data} key={idx} />

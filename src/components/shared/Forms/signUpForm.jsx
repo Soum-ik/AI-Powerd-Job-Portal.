@@ -2,9 +2,9 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { apiUrl } from "../../../lib/config";
 
 const SignUpForm = () => {
-  
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -12,8 +12,11 @@ const SignUpForm = () => {
     email: "",
     name: "",
     password: "",
+    image: "",
     confirmPassword: "",
   });
+
+  console.log(formData, 'form data' );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,14 +31,17 @@ const SignUpForm = () => {
     // Add form submission logic here
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/Userauth/signup", {
+      const res = await fetch(`${apiUrl}Userauth/signup`, {
         body: JSON.stringify(formData),
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
+      console.log(res, 'before getting api respnonse');
       const data = await res.json();
+      console.log(data, 'after  getting api respnonse');
+      
       if (data.status === 410) {
         setLoading(false);
         const toastMessage = data.message.issues[0].message;
@@ -57,7 +63,7 @@ const SignUpForm = () => {
         setLoading(false);
 
         toast.error("Something went wrong");
-      } 
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -66,75 +72,96 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="  flex items-center justify-center  mt-20 text-white">
+    <div className="mt-20 flex items-center justify-center text-white">
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-sm"
+        className="w-full max-w-sm rounded-lg bg-gray-800 p-8 shadow-md"
       >
-        <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
+        <h2 className="mb-6 text-2xl font-bold">Sign Up</h2>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2" htmlFor="email">
+          <label className="mb-2 block text-sm font-medium" htmlFor="email">
             Email
           </label>
           <input
             type="email"
+            placeholder="Enter your valid Email"
             id="email"
             name="email"
             onChange={(e) => handleChange(e)}
             value={formData.email}
-            className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2" htmlFor="name">
+          <label className="mb-2 block text-sm font-medium" htmlFor="email">
+            Image Url
+          </label>
+          <input
+            type="text"
+            id="image"
+            name="image"
+            placeholder="Enter your Image Url"
+
+            onChange={(e) => handleChange(e)}
+            value={formData.image}
+            className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="mb-2 block text-sm font-medium" htmlFor="name">
             Name
           </label>
           <input
             type="text"
+            placeholder="Enter your Name"
             id="name"
             name="name"
             onChange={(e) => handleChange(e)}
             value={formData.name}
-            className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2" htmlFor="password">
+          <label className="mb-2 block text-sm font-medium" htmlFor="password">
             Password
           </label>
           <input
             type="text"
             id="password"
             name="password"
+            placeholder="Enter your Password"
+
             onChange={(e) => handleChange(e)}
             value={formData.password}
-            className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
             required
           />
         </div>
         <div className="mb-6">
           <label
-            className="block text-sm font-medium mb-2"
+            className="mb-2 block text-sm font-medium"
             htmlFor="confirmPassword"
           >
             Confirm Password
           </label>
           <input
             type="text"
+            placeholder="Enter your Confirm Password"
             id="confirmPassword"
             name="confirmPassword"
             onChange={(e) => handleChange(e)}
             value={formData.confirmPassword}
-            className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
             required
           />
         </div>
         <button
           disabled={loading}
           type="submit"
-          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+          className="w-full rounded-md bg-gray-600 px-4 py-2 font-bold text-white transition duration-300 hover:bg-gray-700"
         >
           {loading ? `loadig...` : `Sign Up`}
         </button>

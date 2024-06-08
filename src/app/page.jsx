@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import SearchJobsSidebar from "@/components/shared/SearchJobsSidebar";
 import JobResultsFiltered from "@/components/shared/JobResultsFiltered";
 import FancyText from "@/components/shared/FancyText";
-import prisma from "@/lib/prisma";
+
 
 // Function to generate title based on search parameters
 function getTitle({ q, type, location, remote }) {

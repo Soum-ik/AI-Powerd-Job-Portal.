@@ -25,14 +25,12 @@ const SignInForm = () => {
     });
   };
 
- 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Add form submission logic here
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/Userauth/login`, {
+      const response = await fetch(`${apiUrl}Userauth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,8 +41,10 @@ const SignInForm = () => {
 
       if (responseData.status === 200) {
         setLoading(false);
-        router.push("/jobs/new");
+        router.refresh();
         toast.success("Login successful!");
+
+        router.replace("/");
         return;
       }
       if (responseData.status === 204) {
@@ -53,7 +53,7 @@ const SignInForm = () => {
         return;
       }
       toast.error("Something want wrong");
-      setLoading(false); 
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       console.log(err);
@@ -64,11 +64,11 @@ const SignInForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-neutral-800 p-8 mt-20 rounded-lg shadow-md w-full max-w-sm"
+      className="mt-20 w-full max-w-sm rounded-lg bg-neutral-800 p-8 shadow-md"
     >
-      <h2 className="text-2xl font-bold mb-6">Sign In</h2>
+      <h2 className="mb-6 text-2xl font-bold">Sign In</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2" htmlFor="email">
+        <label className="mb-2 block text-sm font-medium" htmlFor="email">
           Email
         </label>
         <input
@@ -77,12 +77,12 @@ const SignInForm = () => {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
           required
         />
       </div>
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-2" htmlFor="password">
+        <label className="mb-2 block text-sm font-medium" htmlFor="password">
           Password
         </label>
         <input
@@ -91,24 +91,24 @@ const SignInForm = () => {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
           required
         />
       </div>
       <button
         type="submit"
-        className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+        className="w-full rounded-md bg-gray-600 px-4 py-2 font-bold text-white transition duration-300 hover:bg-gray-700"
       >
         {loading ? `loading...` : `Sign In`}
       </button>
 
-      <div className=" flex items-center justify-between mt-5">
-        <button onClick={() => setPopUp(!popUp)} className=" text-sm">
+      <div className="mt-5 flex items-center justify-between">
+        <button onClick={() => setPopUp(!popUp)} className="text-sm">
           Forgot Password ?
         </button>
         <Link
           href={"/auth/signup"}
-          className=" text-sm"
+          className="text-sm"
         >{`Have No Account`}</Link>
       </div>
       <Toaster position="top-center" />
@@ -146,19 +146,19 @@ const ForgotPassword = ({ onClose }) => {
     }
   };
   return (
-    <div className=" fixed bg-white inset-0 flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center bg-white">
       <form
         // onSubmit={handleSubmit}
-        className="bg-neutral-800 p-8 mt-20 rounded-lg shadow-md w-full max-w-sm"
+        className="mt-20 w-full max-w-sm rounded-lg bg-neutral-800 p-8 shadow-md"
       >
-        <div className=" flex    justify-between">
-          <h2 className="text-2xl font-bold mb-6">Forgot Password</h2>
+        <div className="flex justify-between">
+          <h2 className="mb-6 text-2xl font-bold">Forgot Password</h2>
           <div onClick={onClose}>
             <FaWindowClose size={25} />
           </div>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2" htmlFor="email">
+          <label className="mb-2 block text-sm font-medium" htmlFor="email">
             Email
           </label>
           <input
@@ -168,7 +168,7 @@ const ForgotPassword = ({ onClose }) => {
             value={email}
             placeholder=" Enter your email please"
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
             required
           />
         </div>
@@ -177,7 +177,7 @@ const ForgotPassword = ({ onClose }) => {
           type="submit"
           onClick={handleChange}
           disabled={loading}
-          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+          className="w-full rounded-md bg-gray-600 px-4 py-2 font-bold text-white transition duration-300 hover:bg-gray-700"
         >
           {loading ? `loading...` : `Send`}
         </button>

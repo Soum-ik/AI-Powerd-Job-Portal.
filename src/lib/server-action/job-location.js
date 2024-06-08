@@ -1,15 +1,19 @@
-"use server";
-
-import prisma from "../prisma";
+import { PrismaClient } from "@prisma/client";
 
 export async function jobLocations() {
-  const locations = await prisma.job.findMany({
-    where: {
-      approved: true,
-    },
-    select: {
-      location: true,
-    },
-  });
-  return locations;
+  const prisma = new PrismaClient();
+
+  try {
+    const locations = await prisma.job.findMany({
+      where: {
+        approved: true,
+      },
+      select: {
+        location: true,
+      },
+    });
+    return locations;
+  } catch (error) {
+    console.log("Error creating a database connection:", error);
+  }
 }

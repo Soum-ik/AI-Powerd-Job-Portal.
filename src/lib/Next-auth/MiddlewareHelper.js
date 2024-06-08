@@ -19,6 +19,7 @@ export async function CheckCookieAuth(req) {
     const requestHeader = new Headers(req.headers);
     requestHeader.set("email", payload.email);
     requestHeader.set("id", payload.id);
+    
 
     return NextResponse.next({
       request: { headers: requestHeader },

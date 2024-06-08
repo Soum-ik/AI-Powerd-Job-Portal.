@@ -1,15 +1,13 @@
 // src/components/ProfileView.js
 "use client";
-
-import { deleteCookie } from "@/lib/Next-auth/RoleChecker";
-import Link from "next/link";
-import React, { useState } from "react";
-import { BiLogOut, BiSolidUserAccount } from "react-icons/bi";
+import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
-
-function ProfileView({ profile }) {
+import Link from "next/link";
+import { deleteCookie } from "@/lib/Next-auth/RoleChecker";
+import { BiLogOut, BiSolidUserAccount, BiLogIn } from "react-icons/bi";
+function ProfileView() {
   const [open, setOpen] = useState(false);
-
+  let cookie;
   return (
     <div>
       <div className="relative" onClick={() => setOpen(!open)}>
@@ -23,14 +21,24 @@ function ProfileView({ profile }) {
             <div className="mr-32 min-w-max cursor-pointer space-y-2 rounded-lg bg-white p-4 shadow backdrop-blur-md">
               <Link
                 href={"/recuters"}
-                className="flex border-spacing-11 items-center  gap-2 border-b"
+                className="flex border-spacing-11 items-center gap-2 border-b"
               >
-                <BiSolidUserAccount /> My Account
+                <BiSolidUserAccount /> Recuter Account
               </Link>
-              <h1 className="flex gap-2  items-center" onClick={() => deleteCookie()}>
-                <BiLogOut />
-                Log out
-              </h1>
+              {cookie ? (
+                <Link href={"/auth/login"} className="flex items-center gap-2">
+                  <BiLogIn />
+                  Log In
+                </Link>
+              ) : (
+                <h1
+                  className="flex items-center gap-2"
+                  onClick={() => deleteCookie()}
+                >
+                  <BiLogOut />
+                  Log out
+                </h1>
+              )}
             </div>
           )}
         </div>

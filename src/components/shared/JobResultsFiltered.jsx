@@ -1,8 +1,12 @@
-import prisma from "@/lib/prisma";
+"use server";
+import { PrismaClient } from "@prisma/client";
 import Link from "next/link";
 import JobListItem from "@/components/shared/jobList";
 import { cn } from "@/lib/utils";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+
+// prisma client check
+const prisma = new PrismaClient();
 
 export default async function JobResults({ filterValue, page = 1 }) {
   const jobsPerPage = 10;
