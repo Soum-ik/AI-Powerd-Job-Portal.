@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { apiUrl } from "../../../lib/config";
+console.log(apiUrl, 'api url');
 
 const SignUpForm = () => {
   const router = useRouter();

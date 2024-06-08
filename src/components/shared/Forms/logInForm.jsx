@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaWindowClose } from "react-icons/fa";
 import { apiUrl } from "@/lib/config";
-
+console.log(apiUrl, 'api url');
 const SignInForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
