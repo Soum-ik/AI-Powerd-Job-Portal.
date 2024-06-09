@@ -5,12 +5,11 @@ export async function CheckCookieAuth(req) {
   try {
     const token = req.cookies.get("token");
 
-     
     if (!token) {
       throw new Error("Token not found in cookies");
     }
 
-    const payload = await VerifyToken(token["value"]);
+    const payload = await VerifyToken(token["vaxlue"]);
 
     if (!payload.email || !payload.id) {
       throw new Error("Invalid token payload");
@@ -19,7 +18,43 @@ export async function CheckCookieAuth(req) {
     const requestHeader = new Headers(req.headers);
     requestHeader.set("email", payload.email);
     requestHeader.set("id", payload.id);
-    
+    requestHeader.set("role", payload.role);
+
+    return NextResponse.next({
+      request: { headers: requestHeader },
+    });
+  } catch (error) {
+    console.error("Middleware Error:", error);
+    return NextResponse.redirect(new URL("/auth/login", req.url));
+  }
+}
+
+export async function AdmimChecker(req) {
+  try {
+    const token = req.cookies.get("token");
+
+    if (!token) {
+      throw new Error("Token not found in cookies");
+    }
+
+    const payload = await VerifyToken(token["value"]);
+    const role = payload.role;
+
+    if (!payload.email || !payload.id) {
+      throw new Error("Invalid token payload");
+    }
+
+    if (!role === "ADMIN") {
+      return NextResponse.json({
+        msg: "You're not eligiable for this route!",
+        status: 401,
+      });
+    }
+
+    const requestHeader = new Headers(req.headers);
+    requestHeader.set("email", payload.email);
+    requestHeader.set("id", payload.id);
+    requestHeader.set("role", payload.role);
 
     return NextResponse.next({
       request: { headers: requestHeader },

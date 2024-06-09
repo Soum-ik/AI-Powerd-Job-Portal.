@@ -7,9 +7,9 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaWindowClose } from "react-icons/fa";
 import { apiUrl } from "@/lib/config";
-console.log(apiUrl, 'api url');
+import { promise } from "zod";
+
 const SignInForm = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [popUp, setPopUp] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,11 +40,16 @@ const SignInForm = () => {
       const responseData = await response.json();
 
       if (responseData.status === 200) {
+        await new Promise((resolve, reject) => {
+          return setTimeout(() => {
+            resolve();
+          }, 3000);
+        });
         setLoading(false);
-        router.refresh();
+        window.location.reload();
         toast.success("Login successful!");
+        window.location.replace("/");
 
-        router.replace("/");
         return;
       }
       if (responseData.status === 204) {

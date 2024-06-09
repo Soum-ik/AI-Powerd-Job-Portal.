@@ -16,11 +16,10 @@ export async function POST(req, res) {
       });
     }
     let createToken = await CreateToken(result);
-    const experiData = new Date(Date.now() + 24 * 60 * 60 * 3600);
-    const cookieString = `token=${createToken}; expires=${experiData.toUTCString()}; path=/ `;
+    const cookieString = `token=${createToken}; expires=2h; path=/ `;
     return NextResponse.json(
       { status: 200, data: createToken },
-      { headers: { "set-cookie": cookieString } }
+      { headers: { "set-cookie": cookieString } },
     );
   } catch (error) {
     console.error("Error occurred:", error);
