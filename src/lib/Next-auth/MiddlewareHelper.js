@@ -8,8 +8,13 @@ export async function CheckCookieAuth(req) {
     if (!token) {
       throw new Error("Token not found in cookies");
     }
+    // Ensure the token value is a string
+    const tokenValue = token["value"];
+    if (typeof tokenValue !== "string") {
+      throw new Error("Token value must be a string");
+    }
 
-    const payload = await VerifyToken(token["vaxlue"]);
+    const payload = await VerifyToken(token["value"]);
 
     if (!payload.email || !payload.id) {
       throw new Error("Invalid token payload");
@@ -24,7 +29,7 @@ export async function CheckCookieAuth(req) {
       request: { headers: requestHeader },
     });
   } catch (error) {
-    console.error("Middleware Error:", error);
+    console.log("Middleware Error:   problem ", error);
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 }
@@ -37,6 +42,12 @@ export async function AdmimChecker(req) {
       throw new Error("Token not found in cookies");
     }
 
+    // Ensure the token value is a string
+    const tokenValue = token["value"];
+    if (typeof tokenValue !== "string") {
+      throw new Error("Token value must be a string");
+    }
+
     const payload = await VerifyToken(token["value"]);
     const role = payload.role;
 
@@ -44,9 +55,10 @@ export async function AdmimChecker(req) {
       throw new Error("Invalid token payload");
     }
 
-    if (!role === "ADMIN") {
+    if (role !== "ADMIN") {
+      // Corrected the role check condition
       return NextResponse.json({
-        msg: "You're not eligiable for this route!",
+        msg: "You're not eligible for this route!",
         status: 401,
       });
     }
@@ -60,7 +72,28 @@ export async function AdmimChecker(req) {
       request: { headers: requestHeader },
     });
   } catch (error) {
-    console.error("Middleware Error:", error);
+    console.log("Middleware Error:  insider ", error);
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
+}
+
+export async function statusChecker(req) {
+  const token = req.cookies.get("token");
+
+  if (!token) {
+    return NextResponse.next();
+  }
+
+  try {
+    const payload = await VerifyToken(token["value"]);
+    if (payload) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  } catch (error) {
+    console.log("Middleware Error:  insider ", error);
+
+    return NextResponse.next();
+  }
+
+  return NextResponse.next();
 }

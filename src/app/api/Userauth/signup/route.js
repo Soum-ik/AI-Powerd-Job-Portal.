@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { userAuthSchema } from "../../../../lib/validation";
 import prisma from "@/lib/prisma";
-import { redirect } from "next/navigation";
 export async function POST(req, res) {
   try {
     const reqBody = await req.json();
@@ -32,6 +31,7 @@ export async function POST(req, res) {
           email: data.email,
           name: data.name,
           password: data.password,
+          image: data.image,
         },
       });
       return NextResponse.json({

@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaWindowClose } from "react-icons/fa";
 import { apiUrl } from "@/lib/config";
-import { promise } from "zod";
 
 const SignInForm = () => {
   const [loading, setLoading] = useState(false);
@@ -38,7 +37,7 @@ const SignInForm = () => {
         body: JSON.stringify(formData),
       });
       const responseData = await response.json();
-
+      console.log(responseData, "respons data");
       if (responseData.status === 200) {
         await new Promise((resolve, reject) => {
           return setTimeout(() => {

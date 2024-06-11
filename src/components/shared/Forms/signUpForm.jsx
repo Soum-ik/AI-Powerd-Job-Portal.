@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { apiUrl } from "../../../lib/config";
-console.log(apiUrl, 'api url');
+import Link from "next/link"; 
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const SignUpForm = () => {
     confirmPassword: "",
   });
 
-  console.log(formData, 'form data' );
+  console.log(formData, "form data");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,10 +39,10 @@ const SignUpForm = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(res, 'before getting api respnonse');
+      console.log(res, "before getting api respnonse");
       const data = await res.json();
-      console.log(data, 'after  getting api respnonse');
-      
+      console.log(data, "after  getting api respnonse");
+
       if (data.status === 410) {
         setLoading(false);
         const toastMessage = data.message.issues[0].message;
@@ -57,6 +57,8 @@ const SignUpForm = () => {
           email: "",
           name: "",
           password: "",
+          image: "",
+
           confirmPassword: "",
         });
         router.replace("/auth/login");
@@ -103,7 +105,6 @@ const SignUpForm = () => {
             id="image"
             name="image"
             placeholder="Enter your Image Url"
-
             onChange={(e) => handleChange(e)}
             value={formData.image}
             className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -134,7 +135,6 @@ const SignUpForm = () => {
             id="password"
             name="password"
             placeholder="Enter your Password"
-
             onChange={(e) => handleChange(e)}
             value={formData.password}
             className="w-full rounded-md bg-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -166,6 +166,9 @@ const SignUpForm = () => {
         >
           {loading ? `loadig...` : `Sign Up`}
         </button>
+        <div className="mt-4">
+          <Link href={"/auth/login"}>Already Have Account.</Link>
+        </div>
       </form>
       <Toaster position="top-center" />
     </div>

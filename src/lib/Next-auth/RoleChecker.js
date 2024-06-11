@@ -1,10 +1,10 @@
 "use server";
 import { cookies } from "next/headers";
-import prisma from "../prisma";
+import { PrismaClient } from "@prisma/client";
 import { VerifyToken } from "./jwtHelper";
-import { revalidatePath } from "next/cache";
 
 export const RoleChecker = async () => {
+  const prisma = new PrismaClient();  
   const cookie = cookies();
 
   const data = cookie.get("token")?.value;
@@ -21,5 +21,4 @@ export const RoleChecker = async () => {
 
 export const deleteCookie = async () => {
   cookies().delete("token");
-  revalidatePath("/jobs");
 };

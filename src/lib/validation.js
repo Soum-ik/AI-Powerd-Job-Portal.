@@ -11,6 +11,7 @@ const userAuthSchema = z
     email: z.string().email(),
     password: z.string().min(8),
     name: z.string(),
+    image: z.string(),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
