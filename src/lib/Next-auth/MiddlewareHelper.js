@@ -5,6 +5,10 @@ export async function CheckCookieAuth(req) {
   try {
     const token = req.cookies.get("token");
 
+    // catch requested route
+    let requestedRoute = req.nextUrl.pathname;
+    requestedRoute = requestedRoute.toString();
+
     if (!token) {
       throw new Error("Token not found in cookies");
     }
@@ -24,6 +28,7 @@ export async function CheckCookieAuth(req) {
     requestHeader.set("email", payload.email);
     requestHeader.set("id", payload.id);
     requestHeader.set("role", payload.role);
+    requestHeader.set("route", requestedRoute);
 
     return NextResponse.next({
       request: { headers: requestHeader },
@@ -34,9 +39,48 @@ export async function CheckCookieAuth(req) {
   }
 }
 
+export async function UserApiChecking(req) {
+  try {
+    const token = req.cookies.get("token");
+
+    // catch requested route
+    let requestedRoute = req.nextUrl.pathname;
+    requestedRoute = requestedRoute.toString();
+    console.log(requestedRoute, 'checking fro route');
+
+    
+    const payload = await VerifyToken(token["value"]);
+    console.log(payload, "after payload check ing");
+
+    if (!payload.email || !payload.id) {
+      throw new Error("Invalid token payload");
+    }
+
+    const requestHeader = new Headers(req.headers);
+    requestHeader.set("email", payload.email);
+    requestHeader.set("id", payload.id);
+    requestHeader.set("role", payload.role);
+    requestHeader.set("route", requestedRoute);
+
+    return NextResponse.next({
+      request: { headers: requestHeader },
+    });
+  } catch (e) {
+    console.log(e);
+    return NextResponse.json(
+      { status: "fail", data: "unauthorized" },
+      { status: 401 },
+    );
+  }
+}
+
 export async function AdmimChecker(req) {
   try {
     const token = req.cookies.get("token");
+
+    // catch requested route
+    let requestedRoute = req.nextUrl.pathname;
+    requestedRoute = requestedRoute.toString();
 
     if (!token) {
       throw new Error("Token not found in cookies");
@@ -64,6 +108,7 @@ export async function AdmimChecker(req) {
     requestHeader.set("email", payload.email);
     requestHeader.set("id", payload.id);
     requestHeader.set("role", payload.role);
+    requestHeader.set("route", requestedRoute);
 
     return NextResponse.next({
       request: { headers: requestHeader },

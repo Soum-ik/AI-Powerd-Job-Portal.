@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/shared/jobList.jsx", "src/components/shared/SearchJobsSidebar.jsx", "src/lib/actions.js", "src/app/page.jsx", "src/components/shared/JobResultsFiltered.jsx", "src/app/jobs/new/page.jsx", "src/lib/Next-auth/MiddlewareHelper.js", "src/lib/Next-auth/RoleChecker.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/shared/jobList.jsx", "src/components/shared/SearchJobsSidebar.jsx", "src/lib/actions.js", "src/app/page.jsx", "src/components/shared/JobResultsFiltered.jsx", "src/app/jobs/new/page.tsx", "src/lib/Next-auth/MiddlewareHelper.js", "src/lib/Next-auth/RoleChecker.js"],
   "exclude": ["node_modules"]
 }

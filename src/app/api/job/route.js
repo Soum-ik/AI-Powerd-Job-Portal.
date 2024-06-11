@@ -9,8 +9,7 @@ export async function POST(req, res) {
     const reqBody = await req.json();
     const requestHeaders = headers();
     const userId = requestHeaders.get("id");
-     
-
+    
     if (!reqBody) {
       return NextResponse.json({ status: "Data Not Found" }, { status: 400 });
     }
@@ -51,7 +50,6 @@ export async function POST(req, res) {
     };
 
     const data = await prisma.job.create({ data: jobData });
-    
 
     return NextResponse.json({
       message: "Successfully data added",

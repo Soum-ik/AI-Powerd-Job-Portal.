@@ -2,6 +2,7 @@ import {
   CheckCookieAuth,
   AdmimChecker as VerifyAdminAccess,
   statusChecker,
+  UserApiChecking,
 } from "./lib/Next-auth/MiddlewareHelper.js";
 
 export async function middleware(request) {
@@ -17,5 +18,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/jobs/new", "/recuters", "/api/job", "/admin", "/auth/login"],
+  matcher: ["/admin", "/recuters", "/jobs/new", "/auth/login", "/api/job"],
 };

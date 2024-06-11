@@ -7,14 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import RichTextEditor from "@/components/shared/RichTextEditor";
+import { draftToMarkdown } from "markdown-draft-js";
 
 function Form({ jobtype }) {
   const router = useRouter();
-  const editorRef = useRef(null);  
+  const [editorState, setEditorState] = useState(null);
+
+  console.log(editorState, "value");
 
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -80,14 +83,15 @@ function Form({ jobtype }) {
 
   async function handleClick(e) {
     e.preventDefault();
-    if (!editorRef || !type || !companyLogoUrl) {
+    if (!type || !companyLogoUrl) {
       toast.error("Field are not filled!");
       return;
     }
     try {
       setLoading(true);
-      const editorContent = editorRef.current.getEditorContent();
-     
+      const editorContent = draftToMarkdown(editorState);
+      console.log(editorContent, "check before send");
+
       const finalFormData = {
         ...form,
         description: editorContent,
@@ -119,8 +123,8 @@ function Form({ jobtype }) {
     <div>
       <form className="space-y-5">
         <div>
-          <h1 className=" font-semibold">Job Details</h1>
-          <p className=" text-muted-foreground">
+          <h1 className="font-semibold">Job Details</h1>
+          <p className="text-muted-foreground">
             Provide a job description and details
           </p>
         </div>
@@ -129,7 +133,7 @@ function Form({ jobtype }) {
             Job title
           </label>
           <Input
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="e.g. Front-end Development"
             name="title"
             value={title}
@@ -167,7 +171,7 @@ function Form({ jobtype }) {
             Company Name
           </label>
           <Input
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="stack.lmt"
             name="companyName"
             onChange={(e) => handleFormChange("companyName", e.target.value)}
@@ -182,7 +186,7 @@ function Form({ jobtype }) {
           </label>
           <Input
             required
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="e.g. Front-end Development"
             name="image"
             onChange={handleFileChange}
@@ -195,7 +199,7 @@ function Form({ jobtype }) {
             Office location
           </label>
           <Input
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="location"
             name="officeLocation"
             value={officeLocation}
@@ -209,7 +213,7 @@ function Form({ jobtype }) {
             Location
           </label>
           <Input
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="location"
             name="location"
             required
@@ -222,9 +226,9 @@ function Form({ jobtype }) {
           <label htmlFor="applicationEmail" className="text-medium">
             How to apply
           </label>
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <Input
-              className="focus:border-2 focus:border-neutral-900 "
+              className="focus:border-2 focus:border-neutral-900"
               placeholder="email"
               required
               value={applicationEmail}
@@ -236,7 +240,7 @@ function Form({ jobtype }) {
             />
             Or
             <Input
-              className="focus:border-2 focus:border-neutral-900 "
+              className="focus:border-2 focus:border-neutral-900"
               placeholder="applicationUrl"
               name="applicationUrl"
               required
@@ -252,8 +256,8 @@ function Form({ jobtype }) {
           <label htmlFor="description" className="text-medium">
             Description
           </label>
-          <div className="border rounded-md py-2 min-h-40">
-            <RichTextEditor ref={editorRef} />
+          <div className="min-h-40 rounded-md border">
+            <RichTextEditor onChange={(draft) => setEditorState(draft)} />
           </div>
         </div>
         <div>
@@ -261,7 +265,7 @@ function Form({ jobtype }) {
             Salary
           </label>
           <Input
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="Salary"
             name="salary"
             type="number"
@@ -275,11 +279,11 @@ function Form({ jobtype }) {
           type="submit"
           onClick={handleClick}
           disabled={loading}
-          className={`bg-neutral-800 text-neutral-100 gap-2 flex items-center justify-center rounded-md px-3 py-1 disabled:bg-neutral-700`}
+          className={`flex items-center justify-center gap-2 rounded-md bg-neutral-800 px-3 py-1 text-neutral-100 disabled:bg-neutral-700`}
         >
           {loading ? (
             <>
-              <div className="animate-spin border-b border-2 rounded-full border-neutral-100 size-6 bg-neutral-800"></div>
+              <div className="size-6 animate-spin rounded-full border-2 border-b border-neutral-100 bg-neutral-800"></div>
               <p>{`Processing...`}</p>
             </>
           ) : (
