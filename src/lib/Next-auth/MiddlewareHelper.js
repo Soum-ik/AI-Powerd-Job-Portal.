@@ -57,10 +57,7 @@ export async function AdmimChecker(req) {
 
     if (role !== "ADMIN") {
       // Corrected the role check condition
-      return NextResponse.json({
-        msg: "You're not eligible for this route!",
-        status: 401,
-      });
+      return NextResponse.redirect(new URL("/admin/access", req.url));
     }
 
     const requestHeader = new Headers(req.headers);

@@ -23,6 +23,9 @@ async function page() {
   // log
   return (
     <div className="mx-auto my-28 max-w-5xl p-3">
+      <h1 className="mt-5 text-center text-4xl font-bold text-neutral-900">
+      Recruiter  Account
+      </h1>
       <div className="flex justify-between">
         <div className="relative rounded-full">
           <Image
