@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 export default async function JobResults({ filterValue, page = 1 }) {
   const jobsPerPage = 10;
   const skip = (page - 1) * jobsPerPage;
-  const { q, type, location } = filterValue;
+  const { q, type, location, minimum, maximum } = filterValue;
 
   // Ensure searchString is properly initialized
   const searchString = q
@@ -29,6 +29,14 @@ export default async function JobResults({ filterValue, page = 1 }) {
           { companyName: { contains: searchString, mode: "insensitive" } },
           { type: { contains: searchString, mode: "insensitive" } },
           { location: { contains: searchString, mode: "insensitive" } },
+          {
+            salary: {
+              gt: minimum,
+              lt: maximum,
+              contains: searchString,
+              mode: "insensitive",
+            },
+          },
           // { locationType: { contains: searchString, mode: "insensitive" } },
         ],
       }
@@ -40,7 +48,8 @@ export default async function JobResults({ filterValue, page = 1 }) {
       searchFilter, // Include searchFilter if searchString is provided
       type ? { type } : {}, // Include type filter if type is provided
       location ? { location } : {}, // Include location filter if location is provided
-      { approved: true }, // Always include approved filter
+      maximum !== undefined ? { salary: { lte: Number(maximum) } } : {}, // Include maximum salary filter if provided
+      minimum !== undefined ? { salary: { gte: Number(minimum) } } : {}, // Include minimum salary filter if provided
     ],
   };
 
@@ -58,9 +67,10 @@ export default async function JobResults({ filterValue, page = 1 }) {
   // Await the resolution of the jobsPromise
   const [jobs, totalPages] = await Promise.all([jobsPromise, countPromise]);
   // Return or use 'jobs' data as needed
+  console.log(jobs.length, "checking");
 
   return (
-    <div className=" grow space-y-4">
+    <div className="grow space-y-4">
       {jobs?.map((job) => (
         <Link key={job.id} href={`/jobs/${job.slug}`} className="block">
           <JobListItem job={job} />
@@ -103,7 +113,7 @@ function Pagination({ currentPage, totalPages, filterValue }) {
         href={generatePageLink(currentPage - 1)}
         className={cn(
           "flex items-center gap-2 font-semibold",
-          currentPage <= 1 && "invisible"
+          currentPage <= 1 && "invisible",
         )}
       >
         <BsArrowLeft size={16} />
@@ -116,7 +126,7 @@ function Pagination({ currentPage, totalPages, filterValue }) {
         href={generatePageLink(currentPage + 1)}
         className={cn(
           "flex items-center gap-2 font-semibold",
-          currentPage >= totalPages && "invisible"
+          currentPage >= totalPages && "invisible",
         )}
       >
         Next page

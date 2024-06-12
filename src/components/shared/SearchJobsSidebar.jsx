@@ -64,6 +64,27 @@ async function SearchJobsSidebar({ defaultSearch }) {
             </SelectContent>
           </Select>
         </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className="text-medium">
+            Selary Range
+          </label>
+          <div className="flex gap-2">
+            <Input
+              className="focus:border-2 focus:border-neutral-900"
+              placeholder="min"
+              name="minimum"
+              id="minimum"
+              type="number"
+            />
+            <Input
+              className="focus:border-2 focus:border-neutral-900"
+              placeholder="max"
+              name="maximum"
+              type="number"
+              id=" maximum"
+            />
+          </div>
+        </div>
         <Button className="w-full rounded-md border bg-[#272E3F] py-2 font-normal text-white">
           Filter Job
         </Button>

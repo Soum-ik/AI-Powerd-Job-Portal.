@@ -17,12 +17,12 @@ function getTitle({ q, type, location, remote }) {
 }
 
 // Home component
-function Home({ searchParams }) { 
+function Home({ searchParams }) {
   // Destructure search parameters
-  const { q, type, location, page } = searchParams;
+  const { q, type, location, page, minimum, maximum } = searchParams;
 
   // Generate filter values object
-  const filterValues = { q, type, location };
+  const filterValues = { q, type, location, minimum, maximum };
 
   return (
     <div className="mx-auto my-28 max-w-5xl space-y-10 px-3">

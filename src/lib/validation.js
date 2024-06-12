@@ -4,6 +4,8 @@ const jobFilterSchema = z.object({
   q: z.string().optional(),
   type: z.string().optional(),
   location: z.string().optional(),
+  minimum: z.string(),
+  maximum: z.string(),
 });
 
 const userAuthSchema = z

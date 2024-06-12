@@ -12,12 +12,16 @@ export async function filterJobs(formData) {
     }, 1000);
   });
   const values = Object.fromEntries(formData.entries());
-  const { q, location, type } = jobFilterSchema.parse(values);
+  const { q, location, type, minimum, maximum } = jobFilterSchema.parse(values);
+  
+console.log(minimum, maximum , "number");
 
   const searchParams = new URLSearchParams({
     ...(q && { q: q.trim() }),
     ...(type && { type }),
     ...(location && { location }),
+    ...(minimum && { minimum }),
+    ...(maximum && { maximum }),
   });
   redirect(`/?${searchParams.toString()}`);
 }
