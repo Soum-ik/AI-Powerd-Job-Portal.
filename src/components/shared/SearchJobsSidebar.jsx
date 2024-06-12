@@ -13,16 +13,18 @@ import { jobtype } from "@/lib/staticData";
 import { jobLocations } from "@/lib/server-action/job-location";
 async function SearchJobsSidebar({ defaultSearch }) {
   const jobs = await jobLocations();
-  
+
+  const filerdLocation = jobs.filter((job) => job.location !== null);
+
   return (
-    <aside className="sticky top-0 md:top-28 tabular-nums h-fit rounded-lg border bg-background p-4 md:w-[260px]">
-      <form action={filterJobs} className=" space-y-3">
+    <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 tabular-nums md:top-28 md:w-[260px]">
+      <form action={filterJobs} className="space-y-3">
         <div>
           <label htmlFor="" className="text-medium">
             Search
           </label>
           <Input
-            className="focus:border-2 focus:border-neutral-900 "
+            className="focus:border-2 focus:border-neutral-900"
             placeholder="Title, Company, etc"
             name="q"
             id="q"
@@ -54,7 +56,7 @@ async function SearchJobsSidebar({ defaultSearch }) {
               <SelectValue placeholder="All Location" />
             </SelectTrigger>
             <SelectContent>
-              {jobs?.map((item, index) => (
+              {filerdLocation?.map((item, index) => (
                 <SelectItem key={index} value={item?.location}>
                   {item?.location}
                 </SelectItem>
@@ -62,7 +64,7 @@ async function SearchJobsSidebar({ defaultSearch }) {
             </SelectContent>
           </Select>
         </div>
-        <Button className="border  w-full rounded-md  font-normal bg-[#272E3F] text-white   py-2">
+        <Button className="w-full rounded-md border bg-[#272E3F] py-2 font-normal text-white">
           Filter Job
         </Button>
       </form>
