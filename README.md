@@ -8,9 +8,9 @@ it's a project i build for sylhet job search for everyone by morden way
 
 ## 🌟 Features
 
-- **Flexible Layouts**
+- **Flexible Layouts
 - **Super Admin Route**
-- **Jobs Post**
+- **Jobs Post
 - **Search**
 - **Forgot Password**
 - **Mobile Responsiveness**
