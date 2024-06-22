@@ -1,4 +1,3 @@
-"use server";
 import prisma from "@/lib/prisma";
 import { FindQuine } from "@/lib/server-action/find-quine";
 import JobPage from "@/components/shared/JobPage";

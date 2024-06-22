@@ -2,7 +2,7 @@
 
 import prisma from "../prisma";
 
-// for admin checking all of
+// to showcase on admin page all of Unapproved page
 export async function Unapproved() {
   const Unapproved = await prisma.job.findMany({
     where: {
@@ -11,6 +11,17 @@ export async function Unapproved() {
     orderBy: { createdAt: "desc" },
   });
   return Unapproved;
+}
+
+// to showcase on admin page all of approved page
+export async function approved() {
+  const approved = await prisma.job.findMany({
+    where: {
+      approved: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+  return approved;
 }
 
 // for recuiter to checking jobs unapproved

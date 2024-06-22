@@ -20,5 +20,7 @@ export async function approved(slug) {
   const searchParams = new URLSearchParams({
     ...{ q: slug },
   });
-  revalidatePath("/");
+  revalidatePath('/admin');
+  revalidatePath('/');
+  redirect('/');
 }

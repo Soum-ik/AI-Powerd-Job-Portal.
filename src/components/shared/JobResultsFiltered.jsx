@@ -11,7 +11,10 @@ const prisma = new PrismaClient();
 export default async function JobResults({ filterValue, page = 1 }) {
   const jobsPerPage = 10;
   const skip = (page - 1) * jobsPerPage;
-  const { q, type, location, minimum, maximum } = filterValue;
+  let { q, type, location, minimum, maximum } = filterValue;
+
+  const smallDigit = parseInt(minimum);
+  const bigDigit = parseInt(maximum);
 
   // Ensure searchString is properly initialized
   const searchString = q
@@ -31,10 +34,8 @@ export default async function JobResults({ filterValue, page = 1 }) {
           { location: { contains: searchString, mode: "insensitive" } },
           {
             salary: {
-              gt: minimum,
-              lt: maximum,
-              contains: searchString,
-              mode: "insensitive",
+              gt: smallDigit,
+              lt: bigDigit,
             },
           },
           // { locationType: { contains: searchString, mode: "insensitive" } },

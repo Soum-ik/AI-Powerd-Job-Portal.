@@ -2,12 +2,13 @@ import JobListItem from "@/components/shared/jobList";
 import FancyText from "@/components/shared/FancyText";
 import Link from "next/link";
 
-import { Unapproved } from "@/lib/server-action/unapproved";
+import { Unapproved, approved } from "@/lib/server-action/unapproved";
 import { RoleChecker } from "@/lib/Next-auth/RoleChecker";
 import prisma from "@/lib/prisma";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 export const revalidate = 1000; // revalidate the data at most every hour
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 async function page() {
   // Fetch unapproved jobs after the delay
@@ -24,6 +25,7 @@ async function page() {
   console.log(profile, "checkig ");
 
   const UnapprovedJobs = await Unapproved();
+  const approvedJobs = await approved();
 
   return (
     <div className="mx-auto my-24 max-w-5xl px-3">
@@ -49,17 +51,45 @@ async function page() {
           <h1 className="text-sm">Role: {profile.role || `ADMIN`}</h1>
         </div>
       </div>
-      <h2 className="my-4 mt-10 text-lg font-semibold">Unapproved Jobs:</h2>
-      <div className="grow space-y-4">
-        {UnapprovedJobs?.map((job) => (
-          <Link key={job.id} href={`admin/jobs/${job.slug}`} className="block">
-            <JobListItem job={job} />
-          </Link>
-        ))}
-        {UnapprovedJobs?.length === 0 && (
-          <p className="text-center md:mt-20">Unapproved Jobs Not Found.</p>
-        )}
-      </div>
+
+      <Tabs defaultValue="Unapproved" className="">
+        <TabsList>
+          <TabsTrigger value="Unapproved">Unapproved Jobs</TabsTrigger>
+          <TabsTrigger value="Approved">Approved Jpbs</TabsTrigger>
+        </TabsList>
+        <TabsContent value="Unapproved">
+          <div className="grow space-y-4">
+            {UnapprovedJobs?.map((job) => (
+              <Link
+                key={job.id}
+                href={`admin/jobs/${job.slug}`}
+                className="block"
+              >
+                <JobListItem job={job} />
+              </Link>
+            ))}
+            {UnapprovedJobs?.length === 0 && (
+              <p className="text-center md:mt-20">Unapproved Jobs Not Found.</p>
+            )}
+          </div>
+        </TabsContent>
+        <TabsContent value="Approved">
+          <div className="grow space-y-4">
+            {approvedJobs?.map((job) => (
+              <Link
+                key={job.id}
+                href={`admin/jobs/${job.slug}`}
+                className="block"
+              >
+                <JobListItem job={job} />
+              </Link>
+            ))}
+            {approvedJobs?.length === 0 && (
+              <p className="text-center md:mt-20">App Jobs Not Found.</p>
+            )}
+          </div>
+        </TabsContent>
+      </Tabs>
       <Toaster position="top-center" />
     </div>
   );

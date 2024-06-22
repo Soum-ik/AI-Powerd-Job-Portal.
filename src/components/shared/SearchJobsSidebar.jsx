@@ -15,6 +15,18 @@ async function SearchJobsSidebar({ defaultSearch }) {
   const jobs = await jobLocations();
 
   const filerdLocation = jobs.filter((job) => job.location !== null);
+  
+  const uniqueLocations = [];
+  const filerdLocationSet = new Set();
+
+  // filter same location
+  filerdLocation.forEach((item) => {
+    if (!filerdLocationSet.has(item.location)) {
+      uniqueLocations.push(item);
+      filerdLocationSet.add(item.location);
+    }
+  });
+ 
 
   return (
     <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 tabular-nums md:top-28 md:w-[260px]">
@@ -56,7 +68,7 @@ async function SearchJobsSidebar({ defaultSearch }) {
               <SelectValue placeholder="All Location" />
             </SelectTrigger>
             <SelectContent>
-              {filerdLocation?.map((item, index) => (
+              {uniqueLocations?.map((item, index) => (
                 <SelectItem key={index} value={item?.location}>
                   {item?.location}
                 </SelectItem>
