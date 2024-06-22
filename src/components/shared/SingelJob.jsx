@@ -15,8 +15,6 @@ function SingelJob({ job }) {
         return await approved(slug);
       case "delete":
         return await deleteJob(slug);
-      case "show":
-        return await FindQuine(slug);
     }
   };
 
@@ -65,12 +63,6 @@ function SingelJob({ job }) {
           className="button"
         >
           Delete Job
-        </button>
-        <button
-          onClick={() => handleClick(job.slug, "show")}
-          className="button"
-        >
-          Show Job
         </button>
       </div>
     </article>

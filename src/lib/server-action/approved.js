@@ -17,10 +17,6 @@ export async function approved(slug) {
     },
   });
   slug = slug.split("-").slice(0, 1);
-  const searchParams = new URLSearchParams({
-    ...{ q: slug },
-  });
   revalidatePath('/admin');
-  revalidatePath('/');
-  redirect('/');
+  redirect('/admin');
 }
