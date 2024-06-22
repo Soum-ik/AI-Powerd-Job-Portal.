@@ -23,6 +23,8 @@ function Form({ jobtype }) {
   const router = useRouter();
   const [editorState, setEditorState] = useState(null);
 
+  const [preview, setPreview] = useState("");
+
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
   // const [showResult, setShowResult] = useState(false);
@@ -130,7 +132,6 @@ function Form({ jobtype }) {
   // user prompt
   const prompt = `write ${form.title} hireing job description for my company, which is ${form.companyName}`;
   const genrateTextByGeminiAI = async () => {
-
     if (!form.title) {
       return toast.error("Your Job title field are empty");
     }
@@ -147,6 +148,8 @@ function Form({ jobtype }) {
       const contentState = ContentState.createFromText(geminiText);
       setEditorState(convertToRaw(contentState));
 
+      // preview state
+      setPreview(convertToRaw(contentState));
       setLoading(false);
       setShowResult(true);
       toast.success("Successfully");
@@ -308,7 +311,10 @@ function Form({ jobtype }) {
             </div>
           </div>
           <div className="min-h-40 rounded-md border">
-            <RichTextEditor defaultContentState={editorState} onChange={(draft) => setEditorState(draft)} />
+            <RichTextEditor
+              defaultContentState={preview}
+              onChange={(draft) => setEditorState(draft)}
+            />
           </div>
         </div>
         <div>
@@ -348,21 +354,3 @@ function Form({ jobtype }) {
 }
 
 export default Form;
-
-function ShowPreview({ text, onClose }) {
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40">
-      <div className="relative max-h-[50vh] max-w-5xl overflow-y-scroll rounded-md bg-white p-3">
-        <button
-          className="absolute right-2 top-0 bg-black p-1 text-white"
-          onClick={onClose}
-        >
-          <CgClose />
-        </button>
-        <div>
-          <p>{text}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
