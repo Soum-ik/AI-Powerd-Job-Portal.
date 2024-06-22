@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import SearchJobsSidebar from "@/components/shared/SearchJobsSidebar";
 import JobResultsFiltered from "@/components/shared/JobResultsFiltered";
 import FancyText from "@/components/shared/FancyText";
+export const revalidate = 1000; // revalidate the data at most every hour
 
 // Function to generate title based on search parameters
 function getTitle({ q, type, location, remote }) {

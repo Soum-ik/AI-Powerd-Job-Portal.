@@ -12,15 +12,22 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import RichTextEditor from "@/components/shared/RichTextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
+import { revalidatePath } from "next/cache";
+import { AIchatSession } from "../../utility/geminiAPI";
+import { GiSwordsPower } from "react-icons/gi";
+import { BiCloset } from "react-icons/bi";
+import { CgClose } from "react-icons/cg";
+import { Editor, EditorState } from "draft-js";
 
 function Form({ jobtype }) {
   const router = useRouter();
-  const [editorState, setEditorState] = useState(null);
+  const [editorState, setEditorState] = useState("sdfsdfs");
 
-  console.log(editorState, "value");
+  const inisitalvalue = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque voluptatibus asperiores ad, velit facere, possimus quaerat sit alias natus temporibus modi distinctio. Ducimus delectus asperiores repellat, voluptatum soluta dicta odio!`;
 
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
   const [type, setType] = useState("");
   const [form, setForm] = useState({
@@ -108,6 +115,7 @@ function Form({ jobtype }) {
         setLoading(false);
         toast.success("Job Post Successfully");
         router.replace("/job-submitted");
+        revalidatePath("/admin");
       } else {
         setLoading(false);
         toast.error("Job Post Unsuccessful");
@@ -118,6 +126,37 @@ function Form({ jobtype }) {
       setLoading(false);
     }
   }
+
+  console.log(editorState, "checking");
+
+  // user prompt
+  const prompt = `write ${form.title} hireing job description for my company, which is ${form.companyName}`;
+  const genrateTextByGeminiAI = async () => {
+    toast.success("loading...");
+
+    if (!form.title) {
+      return toast.error("Your Job title field are empty");
+    }
+    if (!form.companyName) {
+      return toast.error("Your Company Name field are empty");
+    }
+
+    try {
+      setLoading(true);
+      const result = await AIchatSession.sendMessage(prompt);
+      const geminiText = result.response.text();
+      // Update editor state with the Gemini response
+      setEditorState(geminiText);
+      setLoading(false);
+      setShowResult(true);
+      toast.success("Successfully");
+    } catch (error) {
+      setShowResult(true);
+      console.log(error);
+      setLoading(false);
+      toast.success("Some want wrong");
+    }
+  };
 
   return (
     <div>
@@ -253,11 +292,26 @@ function Form({ jobtype }) {
           </div>
         </div>
         <div>
-          <label htmlFor="description" className="text-medium">
-            Description
-          </label>
+          <div className="flex justify-between">
+            <label htmlFor="description" className="text-medium">
+              Description
+            </label>
+            <div>
+              <button
+                onClick={genrateTextByGeminiAI}
+                type="button"
+                className="mb-2 flex items-center gap-2 rounded-md border p-2 text-sm shadow-md"
+              >
+                <GiSwordsPower size={19} />
+                Genarate From AI
+              </button>
+            </div>
+          </div>
           <div className="min-h-40 rounded-md border">
-            <RichTextEditor onChange={(draft) => setEditorState(draft)} />
+            <RichTextEditor
+              // initialValue={'hello'}
+              onChange={(editorState) => setEditorState(editorState)}
+            />
           </div>
         </div>
         <div>
@@ -297,3 +351,21 @@ function Form({ jobtype }) {
 }
 
 export default Form;
+
+function ShowPreview({ text, onClose }) {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40">
+      <div className="relative max-h-[50vh] max-w-5xl overflow-y-scroll rounded-md bg-white p-3">
+        <button
+          className="absolute right-2 top-0 bg-black p-1 text-white"
+          onClick={onClose}
+        >
+          <CgClose />
+        </button>
+        <div>
+          <p>{text}</p>
+        </div>
+      </div>
+    </div>
+  );
+}

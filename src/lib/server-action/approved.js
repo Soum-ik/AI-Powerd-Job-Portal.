@@ -1,6 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import prisma from "../prisma";
+import { revalidatePath } from "next/cache";
 
 export async function approved(slug) {
   await prisma.job.update({
@@ -19,5 +20,5 @@ export async function approved(slug) {
   const searchParams = new URLSearchParams({
     ...{ q: slug },
   });
-  redirect(`/?${searchParams}`);
+  revalidatePath("/");
 }

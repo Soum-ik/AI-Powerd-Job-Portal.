@@ -7,6 +7,7 @@ import { RoleChecker } from "@/lib/Next-auth/RoleChecker";
 import prisma from "@/lib/prisma";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
+export const revalidate = 1000; // revalidate the data at most every hour
 
 async function page() {
   // Fetch unapproved jobs after the delay
@@ -29,7 +30,7 @@ async function page() {
       <h1 className="mt-5 text-center text-4xl font-bold text-neutral-900">
         Admin <FancyText className={"mr-0 rotate-1 p-0"}>Dash</FancyText>board
       </h1>
-      <div className="flex justify-between my-10">
+      <div className="my-10 flex justify-between">
         <div className="relative rounded-full">
           <Image
             alt="profile image"

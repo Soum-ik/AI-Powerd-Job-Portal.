@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { VerifyToken } from "./jwtHelper";
 
 export const RoleChecker = async () => {
-  const prisma = new PrismaClient();  
+  const prisma = new PrismaClient();
   const cookie = cookies();
 
   const data = cookie.get("token")?.value;
@@ -15,6 +15,7 @@ export const RoleChecker = async () => {
         id: token.id,
       },
     });
+
     return profile;
   }
 };

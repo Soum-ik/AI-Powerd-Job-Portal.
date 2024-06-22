@@ -50,6 +50,7 @@ export default async function JobResults({ filterValue, page = 1 }) {
       location ? { location } : {}, // Include location filter if location is provided
       maximum !== undefined ? { salary: { lte: Number(maximum) } } : {}, // Include maximum salary filter if provided
       minimum !== undefined ? { salary: { gte: Number(minimum) } } : {}, // Include minimum salary filter if provided
+      { approved: true },
     ],
   };
 

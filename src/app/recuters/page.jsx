@@ -24,7 +24,7 @@ async function page() {
   return (
     <div className="mx-auto my-28 max-w-5xl p-3">
       <h1 className="mt-5 text-center text-4xl font-bold text-neutral-900">
-      Recruiter  Account
+        Recruiter Account
       </h1>
       <div className="flex justify-between">
         <div className="relative rounded-full">
@@ -52,7 +52,7 @@ async function page() {
         <div className="mt-10 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-2 md:px-5">
           <div className="max-w-xl">
             <h1 className="text-sm md:text-lg">Approved Jobs:</h1>
-            <div className="mt-3">
+            <div className="mt-3 space-y-2">
               {approved.map((data, idx) => (
                 <JobList job={data} key={idx} />
               ))}
@@ -63,7 +63,7 @@ async function page() {
           </div>
           <div className="max-w-xl">
             <h1 className="text-sm md:text-lg">Unapproved Jobs:</h1>
-            <div className="mt-3">
+            <div className="mt-3 space-y-2">
               {unapproved.map((data, idx) => (
                 <JobList job={data} key={idx} />
               ))}

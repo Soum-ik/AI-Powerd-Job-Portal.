@@ -25,6 +25,12 @@ function ProfileView() {
               >
                 <BiSolidUserAccount /> Recuter Account
               </Link>
+              <Link
+                href={"/admin"}
+                className="flex border-spacing-11 items-center gap-2 border-b"
+              >
+                <BiSolidUserAccount /> Admin Account
+              </Link>
               {cookie ? (
                 <Link href={"/auth/login"} className="flex items-center gap-2">
                   <BiLogIn />
