@@ -46,11 +46,11 @@ export async function UserApiChecking(req) {
     // catch requested route
     let requestedRoute = req.nextUrl.pathname;
     requestedRoute = requestedRoute.toString();
-    console.log(requestedRoute, 'checking fro route');
+ 
 
     
     const payload = await VerifyToken(token["value"]);
-    console.log(payload, "after payload check ing");
+ 
 
     if (!payload.email || !payload.id) {
       throw new Error("Invalid token payload");

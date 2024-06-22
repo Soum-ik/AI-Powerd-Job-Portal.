@@ -14,7 +14,7 @@ export async function filterJobs(formData) {
   const values = Object.fromEntries(formData.entries());
   const { q, location, type, minimum, maximum } = jobFilterSchema.parse(values);
   
-console.log(minimum, maximum , "number");
+ 
 
   const searchParams = new URLSearchParams({
     ...(q && { q: q.trim() }),

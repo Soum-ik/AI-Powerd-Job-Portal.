@@ -37,7 +37,7 @@ const SignInForm = () => {
         body: JSON.stringify(formData),
       });
       const responseData = await response.json();
-      console.log(responseData, "respons data");
+   
       if (responseData.status === 200) {
         await new Promise((resolve, reject) => {
           return setTimeout(() => {

@@ -17,7 +17,7 @@ const SignUpForm = () => {
     confirmPassword: "",
   });
 
-  console.log(formData, "form data");
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,9 +39,9 @@ const SignUpForm = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(res, "before getting api respnonse");
+ 
       const data = await res.json();
-      console.log(data, "after  getting api respnonse");
+ 
 
       if (data.status === 410) {
         setLoading(false);

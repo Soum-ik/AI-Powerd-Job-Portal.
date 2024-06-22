@@ -22,8 +22,6 @@ async function page() {
     },
   });
 
-  console.log(profile, "checkig ");
-
   const UnapprovedJobs = await Unapproved();
   const approvedJobs = await approved();
 

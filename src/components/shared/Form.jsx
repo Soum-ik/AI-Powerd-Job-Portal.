@@ -97,7 +97,7 @@ function Form({ jobtype }) {
     try {
       setLoading(true);
       const editorContent = draftToMarkdown(editorState);
-      console.log(editorContent, "check before send");
+
 
       const finalFormData = {
         ...form,
@@ -127,7 +127,7 @@ function Form({ jobtype }) {
     }
   }
 
-  console.log(editorState, "checking");
+ 
 
   // user prompt
   const prompt = `write ${form.title} hireing job description for my company, which is ${form.companyName}`;
