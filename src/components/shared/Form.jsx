@@ -17,17 +17,15 @@ import { AIchatSession } from "../../utility/geminiAPI";
 import { GiSwordsPower } from "react-icons/gi";
 import { BiCloset } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
-import { Editor, EditorState } from "draft-js";
+import { convertFromRaw, convertToRaw, ContentState } from "draft-js";
 
 function Form({ jobtype }) {
   const router = useRouter();
-  const [editorState, setEditorState] = useState("sdfsdfs");
-
-  const inisitalvalue = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque voluptatibus asperiores ad, velit facere, possimus quaerat sit alias natus temporibus modi distinctio. Ducimus delectus asperiores repellat, voluptatum soluta dicta odio!`;
+  const [editorState, setEditorState] = useState(null);
 
   const [companyLogoUrl, setCompanyLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  // const [showResult, setShowResult] = useState(false);
 
   const [type, setType] = useState("");
   const [form, setForm] = useState({
@@ -54,7 +52,7 @@ function Form({ jobtype }) {
       const formData = new FormData();
       formData.append("image", file);
 
-      const apiKey = "7a4a20aea9e7d64e24c6e75b2972ff00";
+      const apiKey = process.env.NEXT_PUBLIC_IMAGEBB;
       const uploadUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
 
       try {
@@ -132,7 +130,6 @@ function Form({ jobtype }) {
   // user prompt
   const prompt = `write ${form.title} hireing job description for my company, which is ${form.companyName}`;
   const genrateTextByGeminiAI = async () => {
-    toast.success("loading...");
 
     if (!form.title) {
       return toast.error("Your Job title field are empty");
@@ -146,7 +143,10 @@ function Form({ jobtype }) {
       const result = await AIchatSession.sendMessage(prompt);
       const geminiText = result.response.text();
       // Update editor state with the Gemini response
-      setEditorState(geminiText);
+      // setEditorState(geminiText);
+      const contentState = ContentState.createFromText(geminiText);
+      setEditorState(convertToRaw(contentState));
+
       setLoading(false);
       setShowResult(true);
       toast.success("Successfully");
@@ -308,10 +308,7 @@ function Form({ jobtype }) {
             </div>
           </div>
           <div className="min-h-40 rounded-md border">
-            <RichTextEditor
-              initialValue={'hello'}
-              onChange={(draft) => setEditorState(draft)}
-            />
+            <RichTextEditor defaultContentState={editorState} onChange={(draft) => setEditorState(draft)} />
           </div>
         </div>
         <div>
