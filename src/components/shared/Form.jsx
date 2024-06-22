@@ -309,8 +309,8 @@ function Form({ jobtype }) {
           </div>
           <div className="min-h-40 rounded-md border">
             <RichTextEditor
-              // initialValue={'hello'}
-              onChange={(editorState) => setEditorState(editorState)}
+              initialValue={'hello'}
+              onChange={(draft) => setEditorState(draft)}
             />
           </div>
         </div>

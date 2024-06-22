@@ -3,7 +3,6 @@ import { EditorState, convertFromHTML, convertToRaw, } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import { } from "react-dom";
 
 
 const Editor = dynamic(
@@ -20,6 +19,9 @@ interface RichTextEditorProps {
 
 const RichTextEditor = forwardRef<Object, RichTextEditorProps>(
   (props, ref) => {
+    console.log(props.initialValue, "send initialvalue by props");
+
+    const [editorState, setEditorState] = useState(props.initialValue)
 
     const onEditorStateChange = (newState: EditorState) => {
       // setEditorState(newState);
@@ -50,9 +52,9 @@ const RichTextEditor = forwardRef<Object, RichTextEditorProps>(
         }}
         {...props}
 
-        
+
         onEditorStateChange={onEditorStateChange}
- 
+        // editorState={editorState}
       />
     );
   }
