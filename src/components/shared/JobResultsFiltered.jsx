@@ -32,12 +32,12 @@ export default async function JobResults({ filterValue, page = 1 }) {
           { companyName: { contains: searchString, mode: "insensitive" } },
           { type: { contains: searchString, mode: "insensitive" } },
           { location: { contains: searchString, mode: "insensitive" } },
-          {
-            salary: {
-              gt: smallDigit,
-              lt: bigDigit,
-            },
-          },
+          // {
+          //   salary: {
+          //     gt: smallDigit,
+          //     lt: bigDigit,
+          //   },
+          // },
           // { locationType: { contains: searchString, mode: "insensitive" } },
         ],
       }
@@ -49,8 +49,8 @@ export default async function JobResults({ filterValue, page = 1 }) {
       searchFilter, // Include searchFilter if searchString is provided
       type ? { type } : {}, // Include type filter if type is provided
       location ? { location } : {}, // Include location filter if location is provided
-      maximum !== undefined ? { salary: { lte: Number(maximum) } } : {}, // Include maximum salary filter if provided
-      minimum !== undefined ? { salary: { gte: Number(minimum) } } : {}, // Include minimum salary filter if provided
+      maximum !== undefined ? { salary: { lte: Number(bigDigit) } } : {}, // Include maximum salary filter if provided
+      minimum !== undefined ? { salary: { gte: Number(smallDigit) } } : {}, // Include minimum salary filter if provided
       { approved: true },
     ],
   };
