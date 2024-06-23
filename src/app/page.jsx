@@ -1,3 +1,4 @@
+import Header from "@/components/shared/Header";
 import { cn } from "@/lib/utils";
 import SearchJobsSidebar from "@/components/shared/SearchJobsSidebar";
 import JobResultsFiltered from "@/components/shared/JobResultsFiltered";
@@ -27,6 +28,8 @@ function Home({ searchParams }) {
 
   return (
     <div className="mx-auto my-28 max-w-5xl space-y-10 px-3">
+      <Header />
+
       {/* Heading */}
       <div className="space-y-3 text-center">
         <h1
