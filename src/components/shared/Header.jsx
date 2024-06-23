@@ -6,16 +6,16 @@ import Link from "next/link";
 function Header() {
   return (
     <div className="mx-auto max-w-5xl p-3 z-50 backdrop-blur-md">
-      <div className="flex min-h-[80vh] items-center justify-center">
-        <div className="flex flex-col items-center justify-center lg:mb-32">
+      <div className="flex min-h-[60vh] md:min-h-[80vh] items-center justify-center">
+        <div className="flex flex-col lg:items-center justify-center  mb-24 lg:mb-32">
           <h1
             className={cn(
-              "text-center text-xl font-extrabold tabular-nums tracking-tight text-muted text-neutral-800 lg:text-7xl",
+              "md:text-center font-extrabold tabular-nums tracking-tight text-muted text-neutral-800  text-6xl lg:text-7xl",
             )}
           >
             Are you looking for job?
           </h1>
-          <p className="mt-2 text-center">
+          <p className="mt-5 md:mt-2 md:text-center">
             Here is the best platform to find job
           </p>
           <Link href={"/auth/login"}>

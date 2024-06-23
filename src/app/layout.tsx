@@ -23,8 +23,10 @@ export default function RootLayout({
         <Navbar />
         <div className=" mt-28">{children}</div>
         <Footer />
-        <div className="absolute left-0 top-0 size-[500px] rounded-full bg-gradient-to-r from-rose-400 to-orange-300 opacity-20 blur-3xl"></div>
-        <div className="absolute top-10 right-0 size-[500px] rounded-full bg-gradient-to-r z-0 from-violet-200 to-pink-200   opacity-50 blur-3xl"></div>
+        <div className=" md:block hidden">
+          <div className="absolute left-0 top-0 size-[500px] rounded-full bg-gradient-to-r from-rose-400 to-orange-300 opacity-20 blur-3xl"></div>
+          <div className="absolute top-10 right-0 size-[500px] rounded-full bg-gradient-to-r z-0 from-violet-200 to-pink-200   opacity-50 blur-3xl"></div>
+        </div>
       </body>
     </html>
   );
